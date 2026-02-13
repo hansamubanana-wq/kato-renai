@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>恋の偏差値エラー 〜加藤先生、計算が合いません！〜</title>
+    <title>バレンタイン・ラブストーリー 〜青稜中学校の恋〜</title>
     <style>
         * {
             margin: 0;
@@ -14,7 +14,7 @@
 
         body {
             font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #ec407a 0%, #f48fb1 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -33,83 +33,46 @@
             position: relative;
         }
 
+        /* タイトル画面 */
         #title-screen {
             padding: 40px 20px;
             text-align: center;
-            background: linear-gradient(180deg, #e3f2fd 0%, #bbdefb 100%);
-            position: relative;
+            background: linear-gradient(180deg, #fce4ec 0%, #f8bbd0 100%);
         }
 
         #title-screen h1 {
-            font-size: 24px;
-            color: #1565c0;
+            font-size: 26px;
+            color: #c2185b;
             margin-bottom: 10px;
             line-height: 1.4;
         }
 
         #title-screen h2 {
             font-size: 18px;
-            color: #1976d2;
+            color: #ec407a;
             margin-bottom: 30px;
         }
 
-        #title-screen .concept {
-            font-size: 16px;
-            color: #424242;
-            font-weight: bold;
-            margin-bottom: 20px;
-            font-style: italic;
-        }
-
-        #title-screen .description {
-            font-size: 14px;
-            color: #616161;
-            margin-bottom: 30px;
-            line-height: 1.6;
-        }
-
-        /* モード選択 */
-        #mode-select {
-            display: none;
-            padding: 40px 20px;
-            text-align: center;
-            background: linear-gradient(180deg, #fff9c4 0%, #fff59d 100%);
-        }
-
-        #mode-select h2 {
-            font-size: 22px;
-            color: #f57f17;
-            margin-bottom: 30px;
-        }
-
-        .mode-button {
-            width: 100%;
-            max-width: 400px;
-            padding: 20px;
-            margin: 15px auto;
+        .valentine-box {
             background: white;
-            border: 3px solid #fbc02d;
+            padding: 20px;
             border-radius: 15px;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: block;
+            margin: 20px 0;
+            border: 3px dashed #ec407a;
         }
 
-        .mode-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 20px rgba(251, 192, 45, 0.3);
-        }
-
-        .mode-button h3 {
-            font-size: 20px;
-            color: #f57f17;
+        .valentine-box p {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.8;
             margin-bottom: 10px;
         }
 
-        .mode-button p {
-            font-size: 14px;
-            color: #666;
-            line-height: 1.6;
+        .valentine-box .date {
+            font-weight: bold;
+            color: #ec407a;
+            font-size: 16px;
+            margin-bottom: 15px;
         }
 
         /* 名前入力 */
@@ -126,20 +89,6 @@
             margin-bottom: 20px;
         }
 
-        #name-input-screen .valentine-note {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 20px 0;
-            border: 2px dashed #ec407a;
-        }
-
-        #name-input-screen .valentine-note p {
-            font-size: 14px;
-            color: #666;
-            line-height: 1.6;
-        }
-
         #name-input-screen input {
             width: 100%;
             max-width: 300px;
@@ -152,7 +101,7 @@
         }
 
         .start-button {
-            background: linear-gradient(135deg, #1976d2, #1565c0);
+            background: linear-gradient(135deg, #ec407a, #d81b60);
             color: white;
             border: none;
             padding: 15px 40px;
@@ -160,52 +109,31 @@
             border-radius: 30px;
             cursor: pointer;
             transition: transform 0.2s;
-            box-shadow: 0 4px 15px rgba(25, 118, 210, 0.4);
+            box-shadow: 0 4px 15px rgba(236, 64, 122, 0.4);
         }
 
         .start-button:active {
             transform: scale(0.95);
         }
 
-        .start-button.pink {
-            background: linear-gradient(135deg, #ec407a, #d81b60);
-        }
-
+        /* ゲーム画面 */
         #game-screen {
             display: none;
         }
 
         .game-header {
-            background: #1976d2;
+            background: linear-gradient(135deg, #ec407a, #f48fb1);
             color: white;
             padding: 15px;
             text-align: center;
             font-size: 16px;
             font-weight: bold;
-        }
-
-        .game-header.romance {
-            background: linear-gradient(135deg, #ec407a, #f48fb1);
-        }
-
-        .game-header.valentine {
-            background: linear-gradient(135deg, #ec407a, #f48fb1);
             animation: valentine-glow 2s infinite;
         }
 
         @keyframes valentine-glow {
             0%, 100% { box-shadow: 0 0 10px rgba(236, 64, 122, 0.5); }
             50% { box-shadow: 0 0 20px rgba(236, 64, 122, 0.8); }
-        }
-
-        .game-header.horror {
-            background: linear-gradient(135deg, #ec407a, #ab47bc);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
         }
 
         /* ステータスバー */
@@ -234,14 +162,6 @@
         .stat-value {
             font-size: 18px;
             font-weight: bold;
-            color: #1976d2;
-        }
-
-        .stat-value.danger {
-            color: #d32f2f;
-        }
-
-        .stat-value.love {
             color: #ec407a;
         }
 
@@ -256,16 +176,8 @@
 
         .stat-bar-fill {
             height: 100%;
-            background: linear-gradient(90deg, #1976d2, #42a5f5);
-            transition: width 0.5s;
-        }
-
-        .stat-bar-fill.love {
             background: linear-gradient(90deg, #ec407a, #f48fb1);
-        }
-
-        .stat-bar-fill.san {
-            background: linear-gradient(90deg, #d32f2f, #f44336);
+            transition: width 0.5s;
         }
 
         #items {
@@ -278,73 +190,27 @@
 
         .item {
             padding: 5px 10px;
-            background: #e3f2fd;
-            border: 1px solid #1976d2;
+            background: #fce4ec;
+            border: 1px solid #ec407a;
             border-radius: 5px;
             font-size: 12px;
         }
 
-        .item.chocolate {
-            background: #fce4ec;
-            border: 1px solid #ec407a;
-        }
-
+        /* テキストウィンドウ */
         #text-window {
-            min-height: 250px;
+            min-height: 280px;
             padding: 30px 20px;
-            background: #f5f5f5;
+            background: repeating-linear-gradient(
+                45deg,
+                #fce4ec,
+                #fce4ec 30px,
+                #f8bbd0 30px,
+                #f8bbd0 31px
+            );
             position: relative;
             overflow: hidden;
         }
 
-        #text-window.normal {
-            background: repeating-linear-gradient(
-                0deg,
-                #e3f2fd,
-                #e3f2fd 30px,
-                #90caf9 30px,
-                #90caf9 31px
-            );
-        }
-
-        #text-window.romance {
-            background: repeating-linear-gradient(
-                0deg,
-                #fce4ec,
-                #fce4ec 30px,
-                #f8bbd0 30px,
-                #f8bbd0 31px
-            );
-        }
-
-        #text-window.valentine {
-            background: repeating-linear-gradient(
-                45deg,
-                #fce4ec,
-                #fce4ec 30px,
-                #f8bbd0 30px,
-                #f8bbd0 31px
-            );
-        }
-
-        #text-window.horror {
-            background: repeating-linear-gradient(
-                45deg,
-                #fce4ec,
-                #fce4ec 30px,
-                #f8bbd0 30px,
-                #f8bbd0 31px
-            );
-            animation: shake 0.5s infinite;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-2px); }
-            75% { transform: translateX(2px); }
-        }
-
-        /* キャラ立ち絵風 */
         .character-portrait {
             text-align: center;
             font-size: 80px;
@@ -367,21 +233,13 @@
 
         .character-name {
             font-weight: bold;
-            color: #1565c0;
+            color: #ec407a;
             margin-bottom: 10px;
             display: block;
         }
 
-        .character-name.nami {
-            color: #ec407a;
-        }
-
         .character-name.player {
             color: #1976d2;
-        }
-
-        .character-name.horror {
-            color: #c2185b;
         }
 
         .inner-thought {
@@ -390,11 +248,11 @@
             font-size: 14px;
             margin-top: 10px;
             padding: 10px;
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.7);
             border-radius: 5px;
         }
 
-        #math-effects {
+        #effects {
             position: absolute;
             top: 0;
             left: 0;
@@ -404,42 +262,18 @@
             z-index: 1;
         }
 
-        .math-symbol {
+        .effect-symbol {
             position: absolute;
             font-size: 24px;
-            color: rgba(25, 118, 210, 0.2);
             animation: float 3s infinite;
         }
 
-        /* ハート＆チョコエフェクト */
-        .heart-symbol {
-            position: absolute;
-            font-size: 24px;
-            color: rgba(236, 64, 122, 0.3);
-            animation: floatHeart 3s infinite;
-        }
-
-        .chocolate-symbol {
-            position: absolute;
-            font-size: 24px;
-            animation: floatChoco 3s infinite;
-        }
-
         @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
+            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.3; }
+            50% { transform: translateY(-30px) rotate(180deg); opacity: 0.6; }
         }
 
-        @keyframes floatHeart {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-30px) scale(1.2); }
-        }
-
-        @keyframes floatChoco {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-25px) rotate(360deg); }
-        }
-
+        /* 選択肢 */
         #choices {
             padding: 20px;
             background: white;
@@ -450,10 +284,10 @@
             padding: 15px;
             margin-bottom: 10px;
             background: white;
-            border: 2px solid #1976d2;
+            border: 2px solid #ec407a;
             border-radius: 10px;
             font-size: 15px;
-            color: #1565c0;
+            color: #c2185b;
             cursor: pointer;
             transition: all 0.3s;
             text-align: left;
@@ -461,7 +295,7 @@
         }
 
         .choice-button:hover {
-            background: #e3f2fd;
+            background: #fce4ec;
             transform: translateX(5px);
         }
 
@@ -469,29 +303,11 @@
             transform: scale(0.98);
         }
 
-        .choice-button.romance {
-            border-color: #ec407a;
-            color: #c2185b;
-        }
-
-        .choice-button.romance:hover {
-            background: #fce4ec;
-        }
-
-        .choice-button.horror {
-            border-color: #ab47bc;
-            color: #8e24aa;
-        }
-
-        .choice-button.horror:hover {
-            background: #f3e5f5;
-        }
-
         .continue-button {
             width: 100%;
             padding: 15px;
             margin-top: 20px;
-            background: linear-gradient(135deg, #1976d2, #1565c0);
+            background: linear-gradient(135deg, #ec407a, #f48fb1);
             color: white;
             border: none;
             border-radius: 10px;
@@ -499,127 +315,33 @@
             cursor: pointer;
         }
 
-        .continue-button.romance {
-            background: linear-gradient(135deg, #ec407a, #f48fb1);
-        }
-
-        /* 逃走劇マップ */
-        #escape-map {
+        /* ミニゲーム */
+        #quiz-game {
             display: none;
             padding: 20px;
             background: white;
         }
 
-        #map-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
+        .quiz-question {
+            font-size: 18px;
+            color: #c2185b;
             margin-bottom: 20px;
+            font-weight: bold;
         }
 
-        .map-cell {
-            aspect-ratio: 1;
+        .quiz-option {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 8px;
+            background: white;
             border: 2px solid #ec407a;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s;
-            background: white;
         }
 
-        .map-cell.player {
-            background: #e3f2fd;
-            border-color: #1976d2;
-        }
-
-        .map-cell.matsumoto {
+        .quiz-option:hover {
             background: #fce4ec;
-            animation: glow 1s infinite;
-        }
-
-        .map-cell.safe {
-            background: #f1f8e9;
-            border-color: #689f38;
-        }
-
-        @keyframes glow {
-            0%, 100% { box-shadow: 0 0 10px #ec407a; }
-            50% { box-shadow: 0 0 20px #ec407a; }
-        }
-
-        .map-info {
-            text-align: center;
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 10px;
-        }
-
-        .map-danger {
-            color: #d32f2f;
-            font-weight: bold;
-        }
-
-        /* 入力セクション */
-        #input-section {
-            display: none;
-            padding: 20px;
-            background: white;
-        }
-
-        #input-section input {
-            width: 100%;
-            padding: 15px;
-            font-size: 16px;
-            border: 2px solid #ec407a;
-            border-radius: 10px;
-            margin-bottom: 10px;
-        }
-
-        #timer {
-            text-align: center;
-            font-size: 24px;
-            color: #c2185b;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .submit-button {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #ec407a, #ab47bc);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        /* 数式ミニゲーム */
-        #math-game {
-            display: none;
-            padding: 20px;
-            background: white;
-            text-align: center;
-        }
-
-        #math-question {
-            font-size: 24px;
-            font-weight: bold;
-            color: #1565c0;
-            margin: 20px 0;
-        }
-
-        #math-input {
-            width: 200px;
-            padding: 15px;
-            font-size: 20px;
-            border: 2px solid #1976d2;
-            border-radius: 10px;
-            text-align: center;
-            margin: 20px 0;
         }
 
         /* エンディング */
@@ -630,20 +352,20 @@
             min-height: 400px;
         }
 
-        #ending-screen.normal {
-            background: linear-gradient(180deg, #e3f2fd 0%, #90caf9 100%);
+        #ending-screen.true-end {
+            background: linear-gradient(180deg, #fff9c4 0%, #fff59d 50%, #fce4ec 100%);
         }
 
-        #ending-screen.bad {
+        #ending-screen.good-end {
             background: linear-gradient(180deg, #fce4ec 0%, #f8bbd0 100%);
         }
 
-        #ending-screen.true {
-            background: linear-gradient(180deg, #fff9c4 0%, #fff59d 100%);
+        #ending-screen.normal-end {
+            background: linear-gradient(180deg, #e3f2fd 0%, #90caf9 100%);
         }
 
-        #ending-screen.nami {
-            background: linear-gradient(180deg, #fce4ec 0%, #f8bbd0 50%, #fff9c4 100%);
+        #ending-screen.bad-end {
+            background: linear-gradient(180deg, #cfd8dc 0%, #b0bec5 100%);
         }
 
         #ending-screen h2 {
@@ -654,17 +376,18 @@
         #ending-screen p {
             font-size: 16px;
             line-height: 1.8;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
 
         .restart-button {
-            background: linear-gradient(135deg, #1976d2, #1565c0);
+            background: linear-gradient(135deg, #ec407a, #d81b60);
             color: white;
             border: none;
             padding: 15px 40px;
             font-size: 16px;
             border-radius: 30px;
             cursor: pointer;
+            margin-top: 20px;
         }
 
         /* 通知 */
@@ -673,22 +396,19 @@
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(0,0,0,0.8);
+            background: rgba(236, 64, 122, 0.95);
             color: white;
             padding: 15px 30px;
             border-radius: 10px;
             font-size: 14px;
             z-index: 1000;
             display: none;
-        }
-
-        #notification.love {
-            background: rgba(236, 64, 122, 0.9);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
 
         @media (max-width: 400px) {
             #title-screen h1 {
-                font-size: 20px;
+                font-size: 22px;
             }
             
             #text-content {
@@ -707,106 +427,69 @@
     <div id="game-container">
         <!-- タイトル画面 -->
         <div id="title-screen">
-            <h1>恋の偏差値エラー</h1>
-            <h2>〜加藤先生、計算が合いません！〜</h2>
-            <div class="concept">「愛は論理（ロジック）では解けない。」</div>
-            <div class="description">
-                論理的思考と青ペンを武器に生きる堅物数学教師・加藤が、<br>
-                「恋愛」という最大の非論理的課題に挑む。<br>
-                若手人気教師への勘違いアプローチ、<br>
-                肉食系おばさん教師からのホラーな逃走劇、<br>
-                そして隣席の熟年教師との真実の愛。
+            <h1>💝 バレンタイン・ラブストーリー 💝</h1>
+            <h2>〜青稜中学校の恋〜</h2>
+            
+            <div class="valentine-box">
+                <div class="date">📅 2月14日 バレンタインデー</div>
+                <p>
+                    あなたは青稜中学校3年生。<br>
+                    担任であり、現代国語を教える<br>
+                    北井なみ先生に密かに恋をしている...
+                </p>
+                <p style="font-weight: bold; color: #ec407a;">
+                    今日、勇気を出してチョコを渡そうと決意した。
+                </p>
             </div>
-            <button class="start-button" onclick="showModeSelect()">ゲームスタート</button>
-        </div>
-
-        <!-- モード選択画面 -->
-        <div id="mode-select">
-            <h2>🎮 モード選択 🎮</h2>
-            <button class="mode-button" onclick="selectMode('kato')">
-                <h3>📘 加藤先生モード（ハードモード）</h3>
-                <p>論理的すぎる数学教師として、なみ先生への無謀な挑戦！<br>
-                ※なみ先生攻略は不可能。畑先生との真実の愛を目指せ。</p>
-            </button>
-            <button class="mode-button" onclick="selectMode('custom')">
-                <h3>💕 生徒モード（禁断の恋）</h3>
-                <p>今日は2月14日、バレンタインデー！<br>
-                あなたは青稜中学校3年生。担任の北井なみ先生に恋をした...！<br>
-                ※生徒と先生の禁断の恋愛ストーリー。</p>
-            </button>
+            
+            <button class="start-button" onclick="showNameInput()">ゲームスタート</button>
         </div>
 
         <!-- 名前入力画面 -->
         <div id="name-input-screen">
-            <h2>💝 あなたの名前を入力してください 💝</h2>
-            <div class="valentine-note">
-                <p style="font-weight: bold; color: #ec407a; margin-bottom: 10px;">📅 2月14日 バレンタインデー</p>
-                <p>
-                    あなたは青稜中学校3年生。<br>
-                    担任であり、現代国語を教える北井なみ先生に<br>
-                    密かに恋をしている...<br><br>
-                    今日、勇気を出してチョコを渡そうと決意した。
-                </p>
+            <h2>💕 あなたの名前を入力してください 💕</h2>
+            <div class="valentine-box">
+                <p>青稜中学校3年A組の生徒として、<br>
+                なみ先生との甘酸っぱい一日が始まります。</p>
             </div>
             <input type="text" id="player-name-input" placeholder="例：山田太郎" maxlength="10">
             <br>
-            <button class="start-button pink" onclick="startGameWithName()">ゲーム開始</button>
+            <button class="start-button" onclick="startGame()">恋の冒険を始める</button>
         </div>
 
         <!-- ゲーム画面 -->
         <div id="game-screen">
-            <div id="game-header" class="game-header">Phase 1: 勘違いの求愛</div>
+            <div id="game-header" class="game-header">💝 2月14日 バレンタインデー 💝</div>
             
             <!-- ステータスバー -->
             <div id="status-bar">
                 <div class="stat">
-                    <div class="stat-label" id="nami-label">なみ先生好感度</div>
-                    <div class="stat-value love" id="nami-affection">0</div>
+                    <div class="stat-label">なみ先生♡好感度</div>
+                    <div class="stat-value" id="affection-value">50</div>
                     <div class="stat-bar">
-                        <div class="stat-bar-fill love" id="nami-bar" style="width: 50%"></div>
+                        <div class="stat-bar-fill" id="affection-bar" style="width: 50%"></div>
                     </div>
                 </div>
                 <div class="stat">
                     <div class="stat-label">勇気</div>
-                    <div class="stat-value" id="san-value">100</div>
+                    <div class="stat-value" id="courage-value">100</div>
                     <div class="stat-bar">
-                        <div class="stat-bar-fill san" id="san-bar" style="width: 100%"></div>
+                        <div class="stat-bar-fill" id="courage-bar" style="width: 100%"></div>
                     </div>
                 </div>
                 <div id="items"></div>
             </div>
             
-            <div id="text-window" class="normal">
-                <div id="math-effects"></div>
+            <div id="text-window">
+                <div id="effects"></div>
                 <div id="character-portrait" class="character-portrait"></div>
                 <div id="text-content"></div>
             </div>
 
             <div id="choices"></div>
             
-            <!-- 逃走劇マップ -->
-            <div id="escape-map">
-                <div class="map-info">
-                    松本先生の位置: <span class="map-danger" id="matsumoto-pos">???</span><br>
-                    安全地帯（職員室）まで逃げろ！
-                </div>
-                <div id="map-grid"></div>
-            </div>
-            
-            <!-- 入力セクション -->
-            <div id="input-section">
-                <div id="timer"></div>
-                <input type="text" id="excuse-input" placeholder="論理的な言い訳を入力してください">
-                <button class="submit-button" onclick="submitExcuse()">送信</button>
-            </div>
-
-            <!-- 数式ミニゲーム -->
-            <div id="math-game">
-                <h3 id="math-game-title">加藤先生の数学力で解決せよ！</h3>
-                <div id="math-question"></div>
-                <input type="number" id="math-input" placeholder="答えを入力">
-                <button class="submit-button" onclick="submitMathAnswer()">回答</button>
-            </div>
+            <!-- クイズミニゲーム -->
+            <div id="quiz-game"></div>
         </div>
 
         <!-- エンディング画面 -->
@@ -815,799 +498,717 @@
 
     <script>
         // ゲーム状態
-        let gameState = {
-            mode: 'kato',
-            playerName: '加藤',
-            currentPhase: 0,
-            currentScene: 0,
-            namiAffection: 0,
+        const gameState = {
+            playerName: '',
+            affection: 50,
             courage: 100,
             items: [],
-            playerPos: 4,
-            matsumotoPos: 0,
-            escapeTurns: 0,
-            mathCorrect: 0
+            hasChocolate: false,
+            quizScore: 0,
+            sceneIndex: 0
         };
 
-        let timerInterval;
-        let timeLeft = 15;
-        let currentScenarios = [];
-
-        function showModeSelect() {
-            document.getElementById('title-screen').style.display = 'none';
-            document.getElementById('mode-select').style.display = 'block';
-        }
-
-        function selectMode(mode) {
-            gameState.mode = mode;
-            document.getElementById('mode-select').style.display = 'none';
+        // 全シナリオ
+        const allScenarios = [
+            // === Phase 1: 朝のHR前 ===
+            {
+                text: "朝、7時50分。青稜中学校3年A組の教室。",
+                speaker: "ナレーション"
+            },
+            {
+                text: "（鞄の中のチョコを確認する）...よし、ちゃんとある。今日こそ、なみ先生に渡すんだ！",
+                speaker: "player",
+                thought: "（ドキドキする...でも、頑張らないと！）",
+                portrait: "😳",
+                effect: "chocolate"
+            },
+            {
+                text: "おい、おはよう！",
+                speaker: "友人A",
+                portrait: "👦"
+            },
+            {
+                text: "あ、おはよう。",
+                speaker: "player",
+                portrait: "😊"
+            },
+            {
+                text: "お前、今日誰かにチョコ渡すの？鞄、やけに大事そうに持ってるじゃん。",
+                speaker: "友人B",
+                portrait: "👦"
+            },
+            {
+                text: "それは...まあ、な。",
+                speaker: "player",
+                choices: [
+                    { text: "A：「実はなみ先生に渡そうと思ってる」（正直に話す）", affection: 0, courage: -5 },
+                    { text: "B：「内緒！教えない！」（はぐらかす）", affection: 0, courage: 0 },
+                    { text: "C：「好きな人がいるんだよ...」（照れながら）", affection: 0, courage: -3 }
+                ]
+            },
+            {
+                text: "まじかよ！なみ先生って...先生だぞ？",
+                speaker: "友人A",
+                portrait: "😲"
+            },
+            {
+                text: "わかってるよ。でも、気持ちは伝えたい。",
+                speaker: "player",
+                portrait: "😊"
+            },
+            {
+                text: "勇気あるな...！頑張れよ！",
+                speaker: "友人B",
+                portrait: "👦"
+            },
             
-            if (mode === 'kato') {
-                gameState.playerName = '加藤';
-                startGame();
-            } else {
-                document.getElementById('name-input-screen').style.display = 'block';
+            // === Phase 2: なみ先生登場 ===
+            {
+                text: "その時、教室のドアが開いた。",
+                speaker: "ナレーション"
+            },
+            {
+                text: "おはようございます〜！みんな元気？",
+                speaker: "なみ",
+                thought: "（今日はバレンタインか...誰かくれるかな？えへへ）",
+                portrait: "🐰",
+                effect: "heart"
+            },
+            {
+                text: "（心臓が高鳴る）",
+                speaker: "player",
+                thought: "（可愛い...今日絶対渡す...！）",
+                portrait: "😳"
+            },
+            {
+                text: "今日は特別な日ですね♪ バレンタインデー！みんな、誰かに想いを伝えるのかな？",
+                speaker: "なみ",
+                portrait: "😊"
+            },
+            {
+                text: "（クラスがざわつく）",
+                speaker: "ナレーション"
+            },
+            {
+                text: "それでは、朝のHRを始めます。今日の予定ですが...",
+                speaker: "なみ",
+                portrait: "😊"
+            },
+            
+            // === Phase 3: 1時間目・国語の授業 ===
+            {
+                text: "1時間目、現代国語の授業。なみ先生の授業が始まった。",
+                speaker: "ナレーション"
+            },
+            {
+                text: "それでは、教科書の42ページを開いてください。今日は『走れメロス』を読みます。",
+                speaker: "なみ",
+                portrait: "😊"
+            },
+            {
+                text: "（なみ先生のことばかり考えて、全然集中できない...）",
+                speaker: "player",
+                thought: "（チョコ、いつ渡そう...）",
+                portrait: "😳"
+            },
+            {
+                text: "playerくん、次の段落を読んでくれる？",
+                speaker: "なみ",
+                portrait: "😊",
+                dynamicName: true
+            },
+            {
+                text: "は、はい！",
+                speaker: "player",
+                choices: [
+                    { text: "A：スラスラと読む（頑張って集中）", affection: 8, courage: -5 },
+                    { text: "B：緊張して何度も噛む", affection: 5, courage: -3 },
+                    { text: "C：先生を見つめながら読む（ドキドキ）", affection: 6, courage: -5 }
+                ]
+            },
+            {
+                text: "ありがとう！とても良かったよ♪",
+                speaker: "なみ",
+                thought: "（今日も頑張ってるな...）",
+                portrait: "😊",
+                showAffection: true
+            },
+            {
+                text: "それでは、メロスの行動について考えてみましょう。メロスは親友を救うために走りました。",
+                speaker: "なみ",
+                portrait: "😊"
+            },
+            {
+                text: "みなさんは、大切な人のために何かを犠牲にできますか？",
+                speaker: "なみ",
+                portrait: "😊"
+            },
+            {
+                text: "（先生を見つめる）",
+                speaker: "player",
+                thought: "（俺は...なみ先生のためなら...）",
+                portrait: "😳",
+                effect: "heart"
+            },
+            
+            // === Phase 4: クイズミニゲーム ===
+            {
+                text: "それでは、理解度チェックをします！",
+                speaker: "なみ",
+                portrait: "😊",
+                quiz: true
+            },
+            
+            // === Phase 5: 授業終了・チョコ渡しイベント ===
+            {
+                text: "チャイムが鳴った。授業が終わった。",
+                speaker: "ナレーション"
+            },
+            {
+                text: "はい、それではここまで〜！お疲れ様でした！",
+                speaker: "なみ",
+                portrait: "😊"
+            },
+            {
+                text: "（教室がざわつき始める）",
+                speaker: "ナレーション",
+                effect: "chocolate"
+            },
+            {
+                text: "今だ...！チョコを渡すなら、今しかない...！",
+                speaker: "player",
+                thought: "（緊張する...でも、行くんだ！）",
+                portrait: "😳",
+                courage: -10
+            },
+            {
+                text: "（立ち上がり、教壇に向かう）",
+                speaker: "player",
+                portrait: "🚶"
+            },
+            {
+                text: "あれ、どうしたの？質問かな？",
+                speaker: "なみ",
+                portrait: "😊"
+            },
+            {
+                text: "あ、あの...先生...！",
+                speaker: "player",
+                portrait: "😳",
+                choices: [
+                    { text: "A：「これ...受け取ってください！」（チョコを差し出す）", affection: 15, courage: -10, giveChocolate: true },
+                    { text: "B：「あ、やっぱりなんでもないです...」（引っ込む）", affection: 0, courage: -20, retreat: true },
+                    { text: "C：「先生、好きです！これ！」（大声で）", affection: 12, courage: -15, giveChocolate: true, bold: true }
+                ]
+            },
+            
+            // === Phase 6: チョコ受け取り後 ===
+            {
+                text: "え、ありがとう！",
+                speaker: "なみ",
+                thought: "（嬉しい...！でも、生徒から...どうしよう...）",
+                portrait: "😳",
+                effect: "heart",
+                skipIfNoChocolate: true
+            },
+            {
+                text: "（なみ先生は少し困ったような、でも嬉しそうな笑顔を見せた）",
+                speaker: "ナレーション",
+                skipIfNoChocolate: true
+            },
+            {
+                text: "（小声）マジで渡したよ...！",
+                speaker: "友人A",
+                portrait: "👦",
+                skipIfNoChocolate: true
+            },
+            {
+                text: "（小声）なみ先生、嬉しそうだったな...",
+                speaker: "友人B",
+                portrait: "👦",
+                skipIfNoChocolate: true
+            },
+            
+            // === Phase 7: 昼休み ===
+            {
+                text: "昼休み。職員室。",
+                speaker: "ナレーション",
+                skipIfNoChocolate: true
+            },
+            {
+                text: "（チョコを見ながら）やったー...！",
+                speaker: "なみ",
+                thought: "（嬉しいな...でも、先生と生徒だし...どうしよう...）",
+                portrait: "😊",
+                skipIfNoChocolate: true
+            },
+            {
+                text: "なみ先生、何見てニヤニヤしてるの？",
+                speaker: "大谷",
+                portrait: "😊",
+                skipIfNoChocolate: true
+            },
+            {
+                text: "え、えっと...なんでもないです！",
+                speaker: "なみ",
+                thought: "（見られた...恥ずかしい...）",
+                portrait: "😳",
+                skipIfNoChocolate: true
+            },
+            {
+                text: "もしかして生徒からチョコもらったとか？良かったじゃん！",
+                speaker: "大谷",
+                portrait: "😄",
+                skipIfNoChocolate: true
+            },
+            {
+                text: "そ、そうなんです...えへへ♪",
+                speaker: "なみ",
+                portrait: "😊",
+                skipIfNoChocolate: true
+            },
+            
+            // === Phase 8: 放課後 ===
+            {
+                text: "放課後。廊下でなみ先生と偶然会った。",
+                speaker: "ナレーション",
+                skipIfNoChocolate: true
+            },
+            {
+                text: "あ、playerくん...",
+                speaker: "なみ",
+                thought: "（ドキドキする...）",
+                portrait: "😊",
+                effect: "heart",
+                dynamicName: true,
+                skipIfNoChocolate: true
+            },
+            {
+                text: "先生...あの、チョコ...",
+                speaker: "player",
+                portrait: "😳",
+                skipIfNoChocolate: true
+            },
+            {
+                text: "ありがとう...すごく嬉しかった。",
+                speaker: "なみ",
+                thought: "（でも、私は先生で...）",
+                portrait: "😊",
+                skipIfNoChocolate: true
+            },
+            {
+                text: "俺...先生のことが...",
+                speaker: "player",
+                portrait: "😳",
+                skipIfNoChocolate: true,
+                choices: [
+                    { text: "A：「好きです！付き合ってください！」", affection: 20, courage: -20 },
+                    { text: "B：「尊敬してます...」（告白を避ける）", affection: 5, courage: 0 },
+                    { text: "C：「ずっと見守ってていいですか？」", affection: 12, courage: -10 }
+                ]
+            },
+            
+            // === 最終判定 ===
+            {
+                text: "...",
+                speaker: "ナレーション",
+                finalJudgment: true
             }
+        ];
+
+        // クイズ問題
+        const quizQuestions = [
+            {
+                question: "『走れメロス』の作者は誰？",
+                options: ["太宰治", "夏目漱石", "芥川龍之介", "宮沢賢治"],
+                correct: 0
+            },
+            {
+                question: "メロスが走った理由は？",
+                options: ["お金のため", "親友セリヌンティウスを救うため", "王様に会うため", "故郷に帰るため"],
+                correct: 1
+            },
+            {
+                question: "メロスの職業は？",
+                options: ["漁師", "羊飼い", "農夫", "職人"],
+                correct: 1
+            }
+        ];
+
+        function showNameInput() {
+            document.getElementById('title-screen').style.display = 'none';
+            document.getElementById('name-input-screen').style.display = 'block';
         }
 
-        function startGameWithName() {
+        function startGame() {
             const nameInput = document.getElementById('player-name-input').value.trim();
             if (nameInput.length === 0) {
                 showNotification('名前を入力してください！');
                 return;
             }
+            
             gameState.playerName = nameInput;
             document.getElementById('name-input-screen').style.display = 'none';
-            startGame();
-        }
-
-        function startGame() {
             document.getElementById('game-screen').style.display = 'block';
-            gameState.currentPhase = 1;
-            gameState.currentScene = 0;
-            gameState.namiAffection = gameState.mode === 'kato' ? 0 : 50;
-            gameState.courage = 100;
-            gameState.items = [];
-            
-            if (gameState.mode === 'kato') {
-                document.getElementById('game-header').textContent = 'Phase 1: 勘違いの求愛';
-                document.getElementById('nami-label').textContent = 'なみ先生好感度';
-                currentScenarios = katoPhase1Scenarios;
-            } else {
-                document.getElementById('game-header').textContent = '💝 2月14日 バレンタインデー';
-                document.getElementById('game-header').classList.add('valentine');
-                document.getElementById('nami-label').textContent = 'なみ先生♡好感度';
-                document.querySelector('#status-bar .stat:nth-child(2) .stat-label').textContent = '勇気';
-                currentScenarios = studentValentineScenarios;
-            }
             
             updateStatus();
             showScene();
         }
 
-        // 生徒モード：バレンタインシナリオ（加藤先生なし）
-        const studentValentineScenarios = [
-            {
-                speaker: "ナレーション",
-                text: "2月14日、朝。青稜中学校3年生のクラス。今日はバレンタインデー。",
-                choices: null
-            },
-            {
-                speaker: gameState.playerName || 'あなた',
-                text: "（鞄の中のチョコを確認する）...よし、ある。今日こそ、なみ先生に渡すんだ。",
-                innerThought: "（ドキドキする...でも、頑張らないと！）",
-                choices: null,
-                portrait: "😳",
-                effects: true,
-                effectType: 'chocolate'
-            },
-            {
-                speaker: "友人A",
-                text: "おい、お前今日誰にチョコ渡すの？",
-                choices: null,
-                portrait: "👦"
-            },
-            {
-                speaker: gameState.playerName || 'あなた',
-                text: "え、えっと...内緒。",
-                choices: null,
-                portrait: "😅"
-            },
-            {
-                speaker: "友人B",
-                text: "なんだよ〜、教えてくれよ！まさか...なみ先生とか？",
-                choices: null,
-                portrait: "👦"
-            },
-            {
-                speaker: gameState.playerName || 'あなた',
-                text: "...！（バレた？）",
-                innerThought: "（顔が熱い...）",
-                choices: null,
-                portrait: "😳"
-            },
-            {
-                speaker: "友人A",
-                text: "マジかよ！なみ先生、確かに可愛いけど...先生だぞ？",
-                choices: null,
-                portrait: "👦"
-            },
-            {
-                speaker: gameState.playerName || 'あなた',
-                text: "...わかってるよ。でも、気持ちは伝えたいんだ。",
-                choices: null,
-                portrait: "😊"
-            },
-            {
-                speaker: "ナレーション",
-                text: "その時、教室のドアが開いた。担任の北井なみ先生が入ってきた。",
-                choices: null
-            },
-            {
-                speaker: "なみ",
-                text: "おはようございます〜！今日もいい天気ですね♪",
-                innerThought: "（今日はバレンタインか...誰かくれるかな？えへへ）",
-                choices: null,
-                portrait: "🐰",
-                isNami: true,
-                effects: true,
-                effectType: 'heart'
-            },
-            {
-                speaker: gameState.playerName || 'あなた',
-                text: "（心臓が高鳴る）",
-                innerThought: "（可愛い...今日絶対渡す...！）",
-                choices: null,
-                portrait: "😳"
-            },
-            {
-                speaker: "なみ",
-                text: "それでは、1時間目は現代国語です。教科書を開いて〜",
-                choices: null,
-                portrait: "😊",
-                isNami: true
-            },
-            {
-                speaker: "ナレーション",
-                text: "なみ先生の授業が始まった。いつもより緊張して、全然集中できない。",
-                choices: null
-            },
-            {
-                speaker: "なみ",
-                text: `はい、じゃあ次の段落、${gameState.playerName}くん読んでくれる？`,
-                choices: null,
-                portrait: "😊",
-                isNami: true
-            },
-            {
-                speaker: gameState.playerName || 'あなた',
-                text: "は、はい！",
-                choices: [
-                    {
-                        text: "A：スラスラと読む（頑張って集中）",
-                        result: 8,
-                        isGood: true
-                    },
-                    {
-                        text: "B：緊張して噛みまくる",
-                        result: 3,
-                        isGood: true
-                    },
-                    {
-                        text: "C：先生を見つめながら読む",
-                        result: 5,
-                        isGood: true
-                    }
-                ],
-                portrait: "😅"
-            },
-            {
-                speaker: "なみ",
-                text: "ありがとう！上手に読めてたよ♪",
-                innerThought: "（今日も頑張ってるな...）",
-                choices: null,
-                portrait: "😊",
-                isNami: true,
-                affectionCheck: true
-            },
-            {
-                speaker: "ナレーション",
-                text: "50分の授業が終わった。チャイムが鳴る。",
-                choices: null
-            },
-            {
-                speaker: "なみ",
-                text: "はい、それではここまで〜！お疲れ様でした！",
-                choices: null,
-                portrait: "😊",
-                isNami: true
-            },
-            {
-                speaker: "ナレーション",
-                text: "教室がざわつき始める。今だ！チョコを渡すなら今しかない！",
-                choices: null,
-                effects: true,
-                effectType: 'chocolate'
-            },
-            {
-                speaker: gameState.playerName || 'あなた',
-                text: "（立ち上がり、教壇に向かう）",
-                innerThought: "（緊張する...でも、行くんだ！）",
-                choices: null,
-                portrait: "😳",
-                courage: -10
-            },
-            {
-                speaker: "なみ",
-                text: "あれ、どうしたの？質問？",
-                choices: null,
-                portrait: "😊",
-                isNami: true
-            },
-            {
-                speaker: gameState.playerName || 'あなた',
-                text: "あ、あの...先生...！",
-                choices: [
-                    {
-                        text: "A：「これ...受け取ってください！」（チョコを差し出す）",
-                        result: 15,
-                        isGood: true,
-                        chocolateGive: true
-                    },
-                    {
-                        text: "B：「あ、やっぱりなんでもないです...」（引っ込む）",
-                        result: 0,
-                        isGood: false
-                    },
-                    {
-                        text: "C：「先生、好きです！これ！」（大声で）",
-                        result: 10,
-                        isGood: true,
-                        chocolateGive: true,
-                        bold: true
-                    }
-                ],
-                portrait: "😳"
-            }
-        ];
-
-        const studentValentineAfterChoco = [
-            {
-                speaker: "なみ",
-                text: "え、ありがとう！",
-                innerThought: "（嬉しい...！でも、生徒から...どうしよう...）",
-                choices: null,
-                portrait: "😳",
-                isNami: true,
-                effects: true,
-                effectType: 'heart'
-            },
-            {
-                speaker: "ナレーション",
-                text: "なみ先生は少し困ったような、でも嬉しそうな笑顔を見せた。",
-                choices: null
-            },
-            {
-                speaker: "友人A",
-                text: "（小声）マジで渡したよ...！",
-                choices: null,
-                portrait: "👦"
-            },
-            {
-                speaker: "友人B",
-                text: "（小声）なみ先生、嬉しそうだったな...」",
-                choices: null,
-                portrait: "👦"
-            },
-            {
-                speaker: "ナレーション",
-                text: "授業が終わり、昼休み。なみ先生は職員室にいる。",
-                choices: null
-            },
-            {
-                speaker: "なみ",
-                text: "（チョコを見ながら）やったー...！",
-                innerThought: "（嬉しいな...でも、先生と生徒だし...どうしよう...）",
-                choices: null,
-                portrait: "😊",
-                isNami: true
-            },
-            {
-                speaker: "大谷",
-                text: "なみ先生、何見てニヤニヤしてるの？",
-                choices: null,
-                portrait: "😊"
-            },
-            {
-                speaker: "なみ",
-                text: "え、えっと...なんでもないです！",
-                innerThought: "（見られた...恥ずかしい...）",
-                choices: null,
-                portrait: "😳",
-                isNami: true
-            },
-            {
-                speaker: "大谷",
-                text: "もしかして生徒からチョコもらったとか？良かったじゃん！",
-                choices: null,
-                portrait: "😄"
-            },
-            {
-                speaker: "なみ",
-                text: "そ、そうなんです...えへへ♪",
-                innerThought: "（大谷先生にバレちゃった...）",
-                choices: null,
-                portrait: "😊",
-                isNami: true
-            },
-            {
-                speaker: "ナレーション",
-                text: "放課後。あなたは廊下でなみ先生と偶然会った。",
-                choices: null
-            },
-            {
-                speaker: "なみ",
-                text: `あ、${gameState.playerName}くん...`,
-                innerThought: "（ドキドキする...）",
-                choices: null,
-                portrait: "😊",
-                isNami: true,
-                effects: true,
-                effectType: 'heart'
-            },
-            {
-                speaker: gameState.playerName || 'あなた',
-                text: "先生...あの、チョコ...",
-                choices: null,
-                portrait: "😳"
-            },
-            {
-                speaker: "なみ",
-                text: "ありがとう...すごく嬉しかった。",
-                innerThought: "（でも、私は先生で...）",
-                choices: null,
-                portrait: "😊",
-                isNami: true
-            },
-            {
-                speaker: gameState.playerName || 'あなた',
-                text: "俺...先生のことが...",
-                choices: [
-                    {
-                        text: "A：「好きです！付き合ってください！」",
-                        result: 15,
-                        isGood: true
-                    },
-                    {
-                        text: "B：「尊敬してます...」（告白を避ける）",
-                        result: 5,
-                        isGood: false
-                    },
-                    {
-                        text: "C：「ずっと見守ってていいですか？」",
-                        result: 10,
-                        isGood: true
-                    }
-                ],
-                portrait: "😳"
-            },
-            {
-                speaker: "ナレーション",
-                text: "なみ先生の好感度が、あなたの運命を決める...！",
-                choices: null,
-                finalCheck: true
-            }
-        ];
-
-        const studentValentineRetreat = [
-            {
-                speaker: "ナレーション",
-                text: "結局、チョコを渡せなかった...",
-                choices: null
-            },
-            {
-                speaker: gameState.playerName || 'あなた',
-                text: "（自分の席に戻る）",
-                innerThought: "（...勇気が出なかった...）",
-                choices: null,
-                portrait: "😞",
-                courage: -20
-            },
-            {
-                speaker: "友人A",
-                text: "おい、渡さなかったのか？",
-                choices: null,
-                portrait: "👦"
-            },
-            {
-                speaker: gameState.playerName || 'あなた',
-                text: "...うん。やっぱり無理だった。",
-                choices: null,
-                portrait: "😞"
-            },
-            {
-                speaker: "ナレーション",
-                text: "その日、なみ先生は他の男子生徒たちからたくさんのチョコをもらっていた。",
-                choices: null
-            },
-            {
-                speaker: "なみ",
-                text: "みんなありがとう〜！嬉しいな♪",
-                choices: null,
-                portrait: "😊",
-                isNami: true
-            },
-            {
-                speaker: gameState.playerName || 'あなた',
-                text: "（遠くから見ている）",
-                innerThought: "（...俺も渡せばよかった...）",
-                choices: null,
-                portrait: "😞"
-            },
-            {
-                speaker: "ナレーション",
-                text: "勇気が足りなかった...Bad Endへ。",
-                choices: null
-            }
-        ];
-
-        // 加藤先生モードのシナリオ（簡略版）
-        const katoPhase1Scenarios = [
-            {
-                speaker: "ナレーション",
-                text: "職員室。数学教師・加藤先生は青ペンを握りしめていた。",
-                choices: null
-            },
-            {
-                speaker: "加藤",
-                text: "（思考中）北井なみ先生との適合率...92.4%。完璧な論理だ。",
-                choices: null,
-                effects: true,
-                portrait: "🧮"
-            },
-            // ここに残りのkatoPhase1Scenariosを追加
-            // 省略しますが、実装時には前回のシナリオを使用
-        ];
-
         function updateStatus() {
-            const statValue = gameState.namiAffection;
-            const courageValue = gameState.courage;
+            document.getElementById('affection-value').textContent = gameState.affection;
+            document.getElementById('courage-value').textContent = gameState.courage;
             
-            document.getElementById('nami-affection').textContent = statValue;
-            document.getElementById('san-value').textContent = courageValue;
+            document.getElementById('affection-bar').style.width = Math.max(0, Math.min(100, gameState.affection)) + '%';
+            document.getElementById('courage-bar').style.width = Math.max(0, Math.min(100, gameState.courage)) + '%';
             
-            const namiBar = document.getElementById('nami-bar');
-            const sanBar = document.getElementById('san-bar');
-            
-            const namiPercent = gameState.mode === 'kato' 
-                ? Math.max(0, Math.min(100, 50 + gameState.namiAffection))
-                : Math.max(0, Math.min(100, gameState.namiAffection));
-            
-            namiBar.style.width = namiPercent + '%';
-            sanBar.style.width = courageValue + '%';
-            
-            if (courageValue < 30) {
-                document.getElementById('san-value').classList.add('danger');
-            }
-            
-            // アイテム表示
             const itemsDiv = document.getElementById('items');
             itemsDiv.innerHTML = '';
             gameState.items.forEach(item => {
                 const itemDiv = document.createElement('div');
                 itemDiv.className = 'item';
-                if (item.includes('チョコ')) {
-                    itemDiv.classList.add('chocolate');
-                }
                 itemDiv.textContent = item;
                 itemsDiv.appendChild(itemDiv);
             });
         }
 
         function showScene() {
-            const textWindow = document.getElementById('text-window');
-            const textContent = document.getElementById('text-content');
-            const choicesDiv = document.getElementById('choices');
-            const mathEffects = document.getElementById('math-effects');
-            const portraitDiv = document.getElementById('character-portrait');
-
-            choicesDiv.innerHTML = '';
-            choicesDiv.style.display = 'none';
-            mathEffects.innerHTML = '';
-            portraitDiv.textContent = '';
-
-            let scene = currentScenarios[gameState.currentScene];
-
+            const scene = allScenarios[gameState.sceneIndex];
+            
             if (!scene) {
-                if (gameState.mode === 'kato') {
-                    normalEnding();
+                // シナリオ終了
+                if (!gameState.hasChocolate) {
+                    showBadEnding('noChocolate');
                 } else {
-                    if (!gameState.items.includes('バレンタインチョコ')) {
-                        currentScenarios = studentValentineRetreat;
-                        gameState.currentScene = 0;
-                        showScene();
-                    } else {
-                        checkStudentEnding();
-                    }
+                    showEnding();
                 }
                 return;
             }
 
-            if (scene.finalCheck) {
-                checkStudentEnding();
+            // スキップ判定
+            if (scene.skipIfNoChocolate && !gameState.hasChocolate) {
+                gameState.sceneIndex++;
+                showScene();
                 return;
             }
 
-            if (scene.affectionCheck && gameState.mode === 'custom') {
-                setTimeout(() => {
-                    if (gameState.namiAffection > 60) {
-                        showNotification('💖 なみ先生の好感度が上がった！', 'love');
-                    }
-                }, 500);
+            // 最終判定
+            if (scene.finalJudgment) {
+                showEnding();
+                return;
             }
 
-            if (gameState.mode === 'custom') {
-                textWindow.classList.remove('normal');
-                textWindow.classList.add('valentine');
+            // クイズ
+            if (scene.quiz) {
+                showQuiz();
+                return;
             }
 
+            // 通常シーン表示
+            displayScene(scene);
+        }
+
+        function displayScene(scene) {
+            const textContent = document.getElementById('text-content');
+            const portraitDiv = document.getElementById('character-portrait');
+            const choicesDiv = document.getElementById('choices');
+            const effectsDiv = document.getElementById('effects');
+
+            choicesDiv.innerHTML = '';
+            choicesDiv.style.display = 'none';
+            portraitDiv.textContent = '';
+            effectsDiv.innerHTML = '';
+
+            // ポートレート
             if (scene.portrait) {
                 portraitDiv.textContent = scene.portrait;
             }
 
-            if (scene.effects) {
-                const effectType = scene.effectType || 'math';
-                if (effectType === 'heart') {
-                    const symbols = ['💕', '💖', '💗', '💘', '💝', '❤️', '💓'];
-                    for (let i = 0; i < 8; i++) {
-                        const symbol = document.createElement('div');
-                        symbol.className = 'heart-symbol';
-                        symbol.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-                        symbol.style.left = Math.random() * 80 + '%';
-                        symbol.style.top = Math.random() * 80 + '%';
-                        symbol.style.animationDelay = Math.random() * 2 + 's';
-                        mathEffects.appendChild(symbol);
-                    }
-                } else if (effectType === 'chocolate') {
-                    const symbols = ['🍫', '🍬', '🍭', '💝'];
-                    for (let i = 0; i < 8; i++) {
-                        const symbol = document.createElement('div');
-                        symbol.className = 'chocolate-symbol';
-                        symbol.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-                        symbol.style.left = Math.random() * 80 + '%';
-                        symbol.style.top = Math.random() * 80 + '%';
-                        symbol.style.animationDelay = Math.random() * 2 + 's';
-                        mathEffects.appendChild(symbol);
-                    }
+            // エフェクト
+            if (scene.effect) {
+                const symbols = scene.effect === 'heart' ? ['💕', '💖', '💗', '💘', '💝', '❤️'] : ['🍫', '🍬', '🍭', '💝'];
+                for (let i = 0; i < 8; i++) {
+                    const symbol = document.createElement('div');
+                    symbol.className = 'effect-symbol';
+                    symbol.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                    symbol.style.left = Math.random() * 80 + '%';
+                    symbol.style.top = Math.random() * 80 + '%';
+                    symbol.style.animationDelay = Math.random() * 2 + 's';
+                    effectsDiv.appendChild(symbol);
                 }
             }
 
-            const speakerClass = scene.isNami ? 'nami' : (scene.speaker === gameState.playerName ? 'player' : '');
-            let html = `<span class="character-name ${speakerClass}">${scene.speaker}</span>${scene.text}`;
+            // テキスト表示
+            let speaker = scene.speaker;
+            if (scene.dynamicName && speaker === 'なみ') {
+                // なみ先生のセリフ内のplayerをプレイヤー名に置換
+            }
+            if (speaker === 'player') {
+                speaker = gameState.playerName;
+            }
+
+            const speakerClass = scene.speaker === 'なみ' ? 'character-name' : (scene.speaker === 'player' ? 'character-name player' : 'character-name');
             
-            if (scene.innerThought) {
-                html += `<div class="inner-thought">${scene.innerThought}</div>`;
+            let text = scene.text;
+            // playerを実際の名前に置換
+            text = text.replace(/player/g, gameState.playerName);
+            
+            let html = speaker !== 'ナレーション' ? `<span class="${speakerClass}">${speaker}</span>` : '';
+            html += text;
+            
+            if (scene.thought) {
+                html += `<div class="inner-thought">${scene.thought}</div>`;
             }
             
             textContent.innerHTML = html;
 
-            if (scene.courage) {
-                gameState.courage = Math.max(0, Math.min(100, gameState.courage + scene.courage));
-                updateStatus();
+            // 好感度表示
+            if (scene.showAffection && gameState.affection > 60) {
+                setTimeout(() => {
+                    showNotification('💖 なみ先生の好感度が上がった！');
+                }, 500);
             }
 
+            // 選択肢
             if (scene.choices) {
                 setTimeout(() => {
                     choicesDiv.style.display = 'block';
                     scene.choices.forEach((choice, index) => {
                         const button = document.createElement('button');
-                        button.className = 'choice-button romance';
+                        button.className = 'choice-button';
                         button.textContent = choice.text;
-                        button.onclick = () => makeChoice(index, choice);
+                        button.onclick = () => makeChoice(choice);
                         choicesDiv.appendChild(button);
                     });
                 }, 500);
             } else {
+                // 次へボタン
                 setTimeout(() => {
                     choicesDiv.style.display = 'block';
                     const button = document.createElement('button');
-                    button.className = 'continue-button romance';
+                    button.className = 'continue-button';
                     button.textContent = '次へ';
-                    button.onclick = nextScene;
+                    button.onclick = () => {
+                        gameState.sceneIndex++;
+                        showScene();
+                    };
                     choicesDiv.appendChild(button);
                 }, 500);
             }
         }
 
-        function makeChoice(index, choice) {
-            if (choice.result) {
-                gameState.namiAffection += choice.result;
-                if (gameState.mode === 'custom') {
-                    const notifType = choice.isGood ? 'love' : '';
-                    const message = choice.isGood ? 
-                        `なみ先生の好感度が上がった！ (+${choice.result})` : 
-                        `なみ先生の反応が微妙...`;
-                    showNotification(message, notifType);
+        function makeChoice(choice) {
+            if (choice.affection) {
+                gameState.affection += choice.affection;
+                if (choice.affection > 0) {
+                    showNotification(`なみ先生の好感度 +${choice.affection}`);
                 }
             }
             
-            if (choice.chocolateGive) {
-                gameState.items.push('バレンタインチョコ');
-                updateStatus();
-                currentScenarios = studentValentineAfterChoco;
-                gameState.currentScene = -1;
+            if (choice.courage) {
+                gameState.courage += choice.courage;
+            }
+            
+            if (choice.giveChocolate) {
+                gameState.hasChocolate = true;
+                gameState.items.push('バレンタインチョコ🍫');
+            }
+            
+            if (choice.retreat) {
+                gameState.hasChocolate = false;
             }
             
             updateStatus();
-            playSound();
-            nextScene();
-        }
-
-        function nextScene() {
-            gameState.currentScene++;
+            gameState.sceneIndex++;
             showScene();
         }
 
-        function checkStudentEnding() {
-            if (gameState.namiAffection >= 75) {
-                studentTrueEnding();
-            } else if (gameState.namiAffection >= 60) {
-                studentGoodEnding();
-            } else if (gameState.namiAffection >= 40) {
-                studentNormalEnding();
+        function showQuiz() {
+            document.getElementById('choices').style.display = 'none';
+            const quizDiv = document.getElementById('quiz-game');
+            quizDiv.style.display = 'block';
+            
+            let currentQuestion = 0;
+            
+            function displayQuestion() {
+                if (currentQuestion >= quizQuestions.length) {
+                    quizDiv.style.display = 'none';
+                    
+                    if (gameState.quizScore === 3) {
+                        gameState.affection += 10;
+                        showNotification('💯 全問正解！なみ先生が喜んでいる！');
+                    } else if (gameState.quizScore >= 2) {
+                        gameState.affection += 5;
+                        showNotification('😊 よく頑張りました！');
+                    } else {
+                        showNotification('📚 もう少し頑張ろう...');
+                    }
+                    
+                    updateStatus();
+                    gameState.sceneIndex++;
+                    showScene();
+                    return;
+                }
+                
+                const q = quizQuestions[currentQuestion];
+                quizDiv.innerHTML = `
+                    <div class="quiz-question">Q${currentQuestion + 1}. ${q.question}</div>
+                `;
+                
+                q.options.forEach((option, index) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'quiz-option';
+                    btn.textContent = option;
+                    btn.onclick = () => {
+                        if (index === q.correct) {
+                            gameState.quizScore++;
+                            showNotification('⭕ 正解！');
+                        } else {
+                            showNotification('❌ 不正解...');
+                        }
+                        currentQuestion++;
+                        setTimeout(displayQuestion, 1000);
+                    };
+                    quizDiv.appendChild(btn);
+                });
+            }
+            
+            displayQuestion();
+        }
+
+        function showEnding() {
+            document.getElementById('game-screen').style.display = 'none';
+            const endingScreen = document.getElementById('ending-screen');
+            endingScreen.style.display = 'block';
+            
+            if (gameState.affection >= 80) {
+                showTrueEnding();
+            } else if (gameState.affection >= 65) {
+                showGoodEnding();
+            } else if (gameState.affection >= 45) {
+                showNormalEnding();
             } else {
-                studentBadEnding();
+                showBadEnding('lowAffection');
             }
         }
 
-        function studentTrueEnding() {
-            document.getElementById('game-screen').style.display = 'none';
+        function showTrueEnding() {
             const endingScreen = document.getElementById('ending-screen');
-            endingScreen.className = 'nami';
-            endingScreen.style.display = 'block';
+            endingScreen.className = 'true-end';
             endingScreen.innerHTML = `
                 <div class="character-portrait">🐰💕</div>
                 <h2>💝 True Love End：禁断の恋、成就 💝</h2>
-                <p><strong>${gameState.playerName}:</strong> 「好きです！付き合ってください！」</p>
-                <p><strong>なみ:</strong> 「...${gameState.playerName}くん」</p>
+                <p><strong>${gameState.playerName}：</strong>「好きです！付き合ってください！」</p>
+                <p><strong>なみ：</strong>「...${gameState.playerName}くん」</p>
                 <p>なみ先生は困った顔をしながらも、微笑んだ。</p>
-                <p><strong>なみ:</strong> 「私も...実は、${gameState.playerName}くんのこと...気になってた」</p>
-                <p><strong>${gameState.playerName}:</strong> 「本当ですか...！」</p>
-                <p><strong>なみ:</strong> 「でも、私は先生で、${gameState.playerName}くんは生徒だから...卒業するまで待ってくれる？」</p>
-                <p><strong>${gameState.playerName}:</strong> 「もちろんです！」</p>
-                <p>1ヶ月後、青稜中学校の卒業式。</p>
-                <p><strong>なみ:</strong> 「卒業おめでとう。これで、もう先生と生徒じゃないね」</p>
+                <p><strong>なみ：</strong>「私も...実は、${gameState.playerName}くんのこと...気になってた」</p>
+                <p><strong>${gameState.playerName}：</strong>「本当ですか...！」</p>
+                <p><strong>なみ：</strong>「でも、私は先生で、${gameState.playerName}くんは生徒だから...卒業するまで待ってくれる？」</p>
+                <p><strong>${gameState.playerName}：</strong>「もちろんです！」</p>
+                <p style="margin-top: 30px;">1ヶ月後、青稜中学校の卒業式。</p>
+                <p><strong>なみ：</strong>「卒業おめでとう。これで、もう先生と生徒じゃないね」</p>
                 <p>二人は手を繋ぎ、新しい人生を歩み始めた。</p>
-                <p style="font-size: 48px; margin: 20px 0;">💕 HAPPY END 💕</p>
-                <p style="margin-top: 20px; font-size: 14px; color: #666;">
+                <p style="font-size: 48px; margin: 30px 0;">💕 HAPPY END 💕</p>
+                <p style="font-size: 14px; color: #666;">
                 最終スコア<br>
-                なみ先生好感度: ${gameState.namiAffection}<br>
-                勇気: ${gameState.courage}
+                好感度: ${gameState.affection} / 勇気: ${gameState.courage}<br>
+                クイズ正解数: ${gameState.quizScore}/3
                 </p>
-                <button class="restart-button" onclick="location.reload()">タイトルに戻る</button>
+                <button class="restart-button" onclick="location.reload()">もう一度プレイ</button>
             `;
         }
 
-        function studentGoodEnding() {
-            document.getElementById('game-screen').style.display = 'none';
+        function showGoodEnding() {
             const endingScreen = document.getElementById('ending-screen');
-            endingScreen.className = 'nami';
-            endingScreen.style.display = 'block';
+            endingScreen.className = 'good-end';
             endingScreen.innerHTML = `
                 <div class="character-portrait">🐰😊</div>
                 <h2>💗 Good End：優しい先生 💗</h2>
-                <p><strong>${gameState.playerName}:</strong> 「好きです！」</p>
-                <p><strong>なみ:</strong> 「...ありがとう。嬉しいよ」</p>
+                <p><strong>${gameState.playerName}：</strong>「好きです！」</p>
+                <p><strong>なみ：</strong>「...ありがとう。嬉しいよ」</p>
                 <p>なみ先生は優しく微笑んだ。</p>
-                <p><strong>なみ:</strong> 「でも、私は先生だから...恋人にはなれないの。ごめんね」</p>
-                <p><strong>${gameState.playerName}:</strong> 「...そうですよね」</p>
-                <p><strong>なみ:</strong> 「でも、${gameState.playerName}くんの気持ちは嬉しかった。大切な生徒だよ」</p>
+                <p><strong>なみ：</strong>「でも、私は先生だから...恋人にはなれないの。ごめんね」</p>
+                <p><strong>${gameState.playerName}：</strong>「...そうですよね」</p>
+                <p><strong>なみ：</strong>「でも、${gameState.playerName}くんの気持ちは嬉しかった。大切な生徒だよ」</p>
                 <p>卒業後も、なみ先生とは良い関係が続いた。<br>
                 時々青稜中学校に遊びに行くと、なみ先生は変わらず優しく迎えてくれる。</p>
-                <p style="margin-top: 20px; font-size: 14px; color: #666;">
+                <p style="font-size: 14px; color: #666; margin-top: 30px;">
                 最終スコア<br>
-                なみ先生好感度: ${gameState.namiAffection}<br>
-                勇気: ${gameState.courage}<br>
-                ※好感度75以上でTrue Endに到達できます
+                好感度: ${gameState.affection} / 勇気: ${gameState.courage}<br>
+                ※好感度80以上でTrue Endに到達できます
                 </p>
-                <button class="restart-button" onclick="location.reload()">タイトルに戻る</button>
+                <button class="restart-button" onclick="location.reload()">もう一度プレイ</button>
             `;
         }
 
-        function studentNormalEnding() {
-            document.getElementById('game-screen').style.display = 'none';
+        function showNormalEnding() {
             const endingScreen = document.getElementById('ending-screen');
-            endingScreen.className = 'normal';
-            endingScreen.style.display = 'block';
+            endingScreen.className = 'normal-end';
             endingScreen.innerHTML = `
                 <div class="character-portrait">🐰</div>
                 <h2>Normal End：ほろ苦いバレンタイン</h2>
-                <p><strong>${gameState.playerName}:</strong> 「好きです...」</p>
-                <p><strong>なみ:</strong> 「...ごめんね。気持ちは嬉しいけど、先生と生徒だから」</p>
+                <p><strong>${gameState.playerName}：</strong>「好きです...」</p>
+                <p><strong>なみ：</strong>「...ごめんね。気持ちは嬉しいけど、先生と生徒だから」</p>
                 <p>なみ先生は申し訳なさそうに微笑んだ。</p>
-                <p><strong>なみ:</strong> 「でも、チョコはありがとう。大切にするね」</p>
+                <p><strong>なみ：</strong>「でも、チョコはありがとう。大切にするね」</p>
                 <p>その後、なみ先生との関係は変わらなかった。<br>
                 青稜中学校の卒業まで、普通の先生と生徒として過ごした。</p>
-                <p style="margin-top: 20px; font-size: 14px; color: #666;">
+                <p style="font-size: 14px; color: #666; margin-top: 30px;">
                 最終スコア<br>
-                なみ先生好感度: ${gameState.namiAffection}<br>
-                勇気: ${gameState.courage}
+                好感度: ${gameState.affection} / 勇気: ${gameState.courage}<br>
+                ※好感度65以上でGood Endに到達できます
                 </p>
-                <button class="restart-button" onclick="location.reload()">タイトルに戻る</button>
+                <button class="restart-button" onclick="location.reload()">もう一度プレイ</button>
             `;
         }
 
-        function studentBadEnding() {
-            if (!gameState.items.includes('バレンタインチョコ')) {
-                document.getElementById('game-screen').style.display = 'none';
-                const endingScreen = document.getElementById('ending-screen');
-                endingScreen.className = 'bad';
-                endingScreen.style.display = 'block';
+        function showBadEnding(type) {
+            const endingScreen = document.getElementById('ending-screen');
+            endingScreen.style.display = 'block';
+            endingScreen.className = 'bad-end';
+            
+            if (type === 'noChocolate') {
                 endingScreen.innerHTML = `
                     <div class="character-portrait">😞</div>
                     <h2>Bad End：渡せなかったチョコ</h2>
                     <p>結局、勇気が出せずにチョコを渡せなかった。</p>
                     <p>その日の放課後、なみ先生は他の生徒たちからもらったチョコを嬉しそうに見ていた。</p>
-                    <p><strong>${gameState.playerName}:</strong> 「（遠くから見ている）...渡せばよかった」</p>
+                    <p><strong>${gameState.playerName}：</strong>（遠くから見ている）...渡せばよかった</p>
                     <p>青稜中学校の卒業まで、この後悔は消えることはなかった...</p>
-                    <p style="margin-top: 20px; font-size: 14px; color: #666;">
+                    <p style="font-size: 14px; color: #666; margin-top: 30px;">
                     最終スコア<br>
-                    なみ先生好感度: ${gameState.namiAffection}<br>
-                    勇気: ${gameState.courage}<br>
+                    好感度: ${gameState.affection} / 勇気: ${gameState.courage}<br>
                     ※チョコを渡さなかったため、Bad Endになりました
                     </p>
-                    <button class="restart-button" onclick="location.reload()">タイトルに戻る</button>
+                    <button class="restart-button" onclick="location.reload()">もう一度プレイ</button>
                 `;
             } else {
-                document.getElementById('game-screen').style.display = 'none';
-                const endingScreen = document.getElementById('ending-screen');
-                endingScreen.className = 'bad';
-                endingScreen.style.display = 'block';
                 endingScreen.innerHTML = `
                     <div class="character-portrait">😰</div>
                     <h2>Bad End：困惑の告白</h2>
-                    <p><strong>${gameState.playerName}:</strong> 「好きです！」</p>
-                    <p><strong>なみ:</strong> 「え...ええっ！？」</p>
+                    <p><strong>${gameState.playerName}：</strong>「好きです！」</p>
+                    <p><strong>なみ：</strong>「え...ええっ！？」</p>
                     <p>なみ先生は明らかに困惑した表情を見せた。</p>
-                    <p><strong>なみ:</strong> 「ご、ごめんね...そういうつもりじゃなくて...チョコは義理で...」</p>
+                    <p><strong>なみ：</strong>「ご、ごめんね...そういうつもりじゃなくて...」</p>
                     <p>その後、なみ先生とはぎこちない関係が続いた。<br>
                     青稜中学校の卒業まで、気まずい思いをすることになった...</p>
-                    <p style="margin-top: 20px; font-size: 14px; color: #666;">
+                    <p style="font-size: 14px; color: #666; margin-top: 30px;">
                     最終スコア<br>
-                    なみ先生好感度: ${gameState.namiAffection}<br>
-                    勇気: ${gameState.courage}<br>
+                    好感度: ${gameState.affection} / 勇気: ${gameState.courage}<br>
                     ※好感度が低すぎました。もっと良い選択肢を選ぼう！
                     </p>
-                    <button class="restart-button" onclick="location.reload()">タイトルに戻る</button>
+                    <button class="restart-button" onclick="location.reload()">もう一度プレイ</button>
                 `;
             }
         }
 
-        function normalEnding() {
-            document.getElementById('game-screen').style.display = 'none';
-            const endingScreen = document.getElementById('ending-screen');
-            endingScreen.className = 'normal';
-            endingScreen.style.display = 'block';
-            endingScreen.innerHTML = `
-                <div class="character-portrait">😔</div>
-                <h2>End A：計算違いの孤独</h2>
-                <p>加藤先生の物語...</p>
-                <button class="restart-button" onclick="location.reload()">タイトルに戻る</button>
-            `;
-        }
-
-        function showNotification(message, type = '') {
+        function showNotification(message) {
             const notification = document.getElementById('notification');
             notification.textContent = message;
-            notification.className = type;
             notification.style.display = 'block';
             setTimeout(() => {
                 notification.style.display = 'none';
             }, 2000);
-        }
-
-        function playSound() {
-            console.log('カチッ（ボールペンのノック音）');
         }
     </script>
 </body>
