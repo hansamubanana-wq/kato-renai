@@ -107,6 +107,75 @@
             50% { opacity: 0.8; }
         }
 
+        /* ステータスバー */
+        #status-bar {
+            background: white;
+            padding: 15px;
+            border-bottom: 2px solid #e0e0e0;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .stat {
+            flex: 1;
+            min-width: 100px;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1976d2;
+        }
+
+        .stat-value.danger {
+            color: #d32f2f;
+        }
+
+        .stat-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+
+        .stat-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #1976d2, #42a5f5);
+            transition: width 0.5s;
+        }
+
+        .stat-bar-fill.san {
+            background: linear-gradient(90deg, #d32f2f, #f44336);
+        }
+
+        /* アイテム欄 */
+        #items {
+            display: flex;
+            gap: 5px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .item {
+            padding: 5px 10px;
+            background: #e3f2fd;
+            border: 1px solid #1976d2;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+
         #text-window {
             min-height: 250px;
             padding: 30px 20px;
@@ -221,6 +290,77 @@
             background: #fce4ec;
         }
 
+        .choice-button.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .choice-requirement {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        /* 逃走劇マップ */
+        #escape-map {
+            display: none;
+            padding: 20px;
+            background: white;
+        }
+
+        #map-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .map-cell {
+            aspect-ratio: 1;
+            border: 2px solid #ec407a;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .map-cell.player {
+            background: #e3f2fd;
+            border-color: #1976d2;
+        }
+
+        .map-cell.matsumoto {
+            background: #fce4ec;
+            animation: glow 1s infinite;
+        }
+
+        .map-cell.safe {
+            background: #f1f8e9;
+            border-color: #689f38;
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 10px #ec407a; }
+            50% { box-shadow: 0 0 20px #ec407a; }
+        }
+
+        .map-info {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .map-danger {
+            color: #d32f2f;
+            font-weight: bold;
+        }
+
+        /* 入力セクション */
         #input-section {
             display: none;
             padding: 20px;
@@ -267,6 +407,32 @@
             cursor: pointer;
         }
 
+        /* ミニゲーム: 数式解答 */
+        #math-game {
+            display: none;
+            padding: 20px;
+            background: white;
+            text-align: center;
+        }
+
+        #math-question {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1565c0;
+            margin: 20px 0;
+        }
+
+        #math-input {
+            width: 200px;
+            padding: 15px;
+            font-size: 20px;
+            border: 2px solid #1976d2;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        /* エンディング */
         #ending-screen {
             display: none;
             padding: 40px 20px;
@@ -307,6 +473,21 @@
             cursor: pointer;
         }
 
+        /* 通知 */
+        #notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 14px;
+            z-index: 1000;
+            display: none;
+        }
+
         @media (max-width: 400px) {
             #title-screen h1 {
                 font-size: 20px;
@@ -323,6 +504,8 @@
     </style>
 </head>
 <body>
+    <div id="notification"></div>
+    
     <div id="game-container">
         <!-- タイトル画面 -->
         <div id="title-screen">
@@ -330,8 +513,11 @@
             <h2>〜加藤先生、計算が合いません！〜</h2>
             <div class="concept">「愛は論理（ロジック）では解けない。」</div>
             <div class="description">
-                論理的思考と青ペンを武器に生きる堅物教師・加藤が、<br>
-                「恋愛」という最大の非論理的課題に挑む。
+                論理的思考と青ペンを武器に生きる堅物数学教師・加藤が、<br>
+                「恋愛」という最大の非論理的課題に挑む。<br>
+                若手人気教師への勘違いアプローチ、<br>
+                肉食系おばさん教師からのホラーな逃走劇、<br>
+                そして隣席の熟年教師との真実の愛。
             </div>
             <button class="start-button" onclick="startGame()">ゲームスタート</button>
         </div>
@@ -340,6 +526,25 @@
         <div id="game-screen">
             <div id="game-header" class="game-header">Phase 1: 勘違いの求愛</div>
             
+            <!-- ステータスバー -->
+            <div id="status-bar">
+                <div class="stat">
+                    <div class="stat-label">なみ先生好感度</div>
+                    <div class="stat-value" id="nami-affection">0</div>
+                    <div class="stat-bar">
+                        <div class="stat-bar-fill" id="nami-bar" style="width: 50%"></div>
+                    </div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">SAN値</div>
+                    <div class="stat-value" id="san-value">100</div>
+                    <div class="stat-bar">
+                        <div class="stat-bar-fill san" id="san-bar" style="width: 100%"></div>
+                    </div>
+                </div>
+                <div id="items"></div>
+            </div>
+            
             <div id="text-window" class="normal">
                 <div id="math-effects"></div>
                 <div id="text-content"></div>
@@ -347,10 +552,28 @@
 
             <div id="choices"></div>
             
+            <!-- 逃走劇マップ -->
+            <div id="escape-map">
+                <div class="map-info">
+                    松本先生の位置: <span class="map-danger" id="matsumoto-pos">???</span><br>
+                    安全地帯（職員室）まで逃げろ！
+                </div>
+                <div id="map-grid"></div>
+            </div>
+            
+            <!-- 入力セクション -->
             <div id="input-section">
                 <div id="timer"></div>
                 <input type="text" id="excuse-input" placeholder="論理的な言い訳を入力してください">
                 <button class="submit-button" onclick="submitExcuse()">送信</button>
+            </div>
+
+            <!-- 数式ミニゲーム -->
+            <div id="math-game">
+                <h3>加藤先生の数学力で解決せよ！</h3>
+                <div id="math-question"></div>
+                <input type="number" id="math-input" placeholder="答えを入力">
+                <button class="submit-button" onclick="submitMathAnswer()">回答</button>
             </div>
         </div>
 
@@ -359,223 +582,500 @@
     </div>
 
     <script>
-        let currentPhase = 0;
-        let currentScene = 0;
-        let namiAffection = 0;
-        let timerInterval;
-        let timeLeft = 10;
-
-        const scenarios = {
-            phase1: [
-                {
-                    speaker: "ナレーション",
-                    text: "職員室。加藤先生は隣の席に座る北井なみ先生を観察していた。",
-                    choices: null
-                },
-                {
-                    speaker: "加藤",
-                    text: "（思考中）なみ先生との適合率は高いはずだ。なぜなら同じ国語科で、席が近いからだ。完璧な論理だ。",
-                    choices: null,
-                    effects: true
-                },
-                {
-                    speaker: "ナレーション",
-                    text: "そんな時、なみ先生が書類を床に落としてしまった。",
-                    choices: null
-                },
-                {
-                    speaker: "なみ",
-                    text: "あ...すみません...",
-                    choices: [
-                        {
-                            text: "A：ミスの原因をチャート図にして提出する",
-                            result: -3
-                        },
-                        {
-                            text: "B：「君の脳のメモリ不足だね」と指摘する",
-                            result: -5
-                        },
-                        {
-                            text: "C：無言で自分の青ペンを貸す",
-                            result: -2
-                        }
-                    ]
-                },
-                {
-                    speaker: "なみ",
-                    text: "ヒッ...！（怯えた表情）",
-                    choices: null
-                },
-                {
-                    speaker: "大谷",
-                    text: "なみ先生、大丈夫ですか？僕が拾いますよ〜（爽やかな笑顔）",
-                    choices: null
-                },
-                {
-                    speaker: "なみ",
-                    text: "あ、ありがとうございます大谷先生...（ホッとした表情）",
-                    choices: null
-                },
-                {
-                    speaker: "加藤",
-                    text: "（思考中）...計算が合わない。なぜだ？",
-                    choices: null,
-                    effects: true
-                },
-                {
-                    speaker: "ナレーション",
-                    text: "数日後、放課後の準備室。加藤先生は再びなみ先生にアプローチを試みた。",
-                    choices: null
-                },
-                {
-                    speaker: "加藤",
-                    text: "なみ先生、お話があります。",
-                    choices: null
-                },
-                {
-                    speaker: "なみ",
-                    text: "は、はい...（緊張）",
-                    choices: [
-                        {
-                            text: "A：「君との適合率について、データを用意しました」",
-                            result: -3
-                        },
-                        {
-                            text: "B：「効率的な関係構築の提案があります」",
-                            result: -4
-                        },
-                        {
-                            text: "C：「...一緒に、お茶でも」（精一杯の優しさ）",
-                            result: -2
-                        }
-                    ]
-                },
-                {
-                    speaker: "なみ",
-                    text: "ご、ごめんなさい！私、怒られるの怖いんです...！（泣きそう）",
-                    choices: null
-                },
-                {
-                    speaker: "大谷",
-                    text: "おっと、なみ先生また怯えてますね〜。加藤センパイ、その眼力だと生徒も怖がりますよ？（ニコッ）",
-                    choices: null
-                },
-                {
-                    speaker: "加藤",
-                    text: "...。",
-                    choices: null
-                },
-                {
-                    speaker: "ナレーション",
-                    text: "そして、放課後の渡り廊下。加藤先生は決意を固めた。",
-                    choices: null
-                },
-                {
-                    speaker: "加藤",
-                    text: "なみ先生。僕は...僕はあなたのことが...",
-                    choices: null,
-                    effects: true
-                },
-                {
-                    speaker: "なみ",
-                    text: "す、すみません加藤先生...！私、大谷先生のことが...好きなんです...",
-                    choices: null
-                },
-                {
-                    speaker: "加藤",
-                    text: "...そう、ですか。（青ペンをぎゅっと握る）",
-                    choices: null
-                },
-                {
-                    speaker: "ナレーション",
-                    text: "Phase 1 終了。加藤先生の心は深く傷ついた。そして、その時...",
-                    choices: null
-                }
-            ],
-            phase2: [
-                {
-                    speaker: "ナレーション",
-                    text: "翌日、職員室。加藤先生は精神的に弱っていた。そんな彼に近づく影が...",
-                    choices: null
-                },
-                {
-                    speaker: "松本",
-                    text: "あらぁ〜ん、加藤ちゃん♡ 元気ないわねぇ〜？",
-                    choices: null
-                },
-                {
-                    speaker: "加藤",
-                    text: "（背筋が凍る）ま、松本先生...！",
-                    choices: null
-                },
-                {
-                    speaker: "松本",
-                    text: "私が慰めてあ・げ・る♡ さぁ、準備室に来なさぁい〜",
-                    choices: null
-                },
-                {
-                    speaker: "ナレーション",
-                    text: "松本先生の強烈な香水の匂いが迫ってくる！逃げるんだ、加藤先生！",
-                    choices: null
-                },
-                {
-                    speaker: "ナレーション",
-                    text: "廊下で松本先生に見つかってしまった！10秒以内に論理的な言い訳を入力しろ！",
-                    choices: null,
-                    input: true
-                }
-            ]
+        // ゲーム状態
+        let gameState = {
+            currentPhase: 0,
+            currentScene: 0,
+            namiAffection: 0,
+            sanValue: 100,
+            items: [],
+            playerPos: 4, // マップ中央
+            matsumotoPos: 0,
+            escapeTurns: 0,
+            mathCorrect: 0
         };
+
+        let timerInterval;
+        let timeLeft = 15;
+
+        // Phase 1: 勘違いの求愛
+        const phase1Scenarios = [
+            {
+                speaker: "ナレーション",
+                text: "職員室。数学教師・加藤先生は青ペンを握りしめていた。隣の席に座る国語科・北井なみ先生を観察しながら。",
+                choices: null
+            },
+            {
+                speaker: "加藤",
+                text: "（思考中）北井なみ先生との適合率を計算した結果...92.4%。根拠：①同じ職員室、②席が隣接、③毎日挨拶を交わす。完璧な論理だ。",
+                choices: null,
+                effects: true
+            },
+            {
+                speaker: "ナレーション",
+                text: "そんな時、なみ先生が書類を床に落としてしまった。チャンス到来！",
+                choices: null
+            },
+            {
+                speaker: "なみ",
+                text: "あ...すみません...",
+                choices: [
+                    {
+                        text: "A：「ミスの発生頻度をグラフ化しましょう。改善に役立ちます」",
+                        result: -5,
+                        san: -5
+                    },
+                    {
+                        text: "B：「君の脳のメモリが不足していますね。最適化が必要です」",
+                        result: -8,
+                        san: -10
+                    },
+                    {
+                        text: "C：無言で青ペンを差し出す（精一杯の優しさ）",
+                        result: -3,
+                        san: -3
+                    }
+                ]
+            },
+            {
+                speaker: "なみ",
+                text: "ヒッ...！（怯えた表情で後ずさる）",
+                choices: null
+            },
+            {
+                speaker: "大谷",
+                text: "おっと、なみ先生大丈夫ですか？（爽やかに書類を拾う）はい、どうぞ！",
+                choices: null
+            },
+            {
+                speaker: "なみ",
+                text: "あ、ありがとうございます大谷先生...（ホッとした表情）",
+                choices: null
+            },
+            {
+                speaker: "加藤",
+                text: "（思考中）...おかしい。僕の方が論理的なアプローチをしたはずだ。なぜ大谷の方が好感度が上がるのだ？",
+                choices: null,
+                effects: true
+            },
+            {
+                speaker: "畑",
+                text: "（隣の席から）あらあら、加藤先生。人の心は数式では表せないのよ？飴ちゃんでも食べて落ち着きなさい。",
+                choices: null,
+                item: "黒糖飴"
+            },
+            {
+                speaker: "加藤",
+                text: "畑先生...（青ペンをカチカチ鳴らす）しかし、論理的に考えれば...",
+                choices: null
+            },
+            {
+                speaker: "畑",
+                text: "（クスクス笑いながら）そういうところよ、加藤先生。でも、それが加藤先生らしくて...好きよ？",
+                choices: null
+            },
+            {
+                speaker: "加藤",
+                text: "...？（混乱）",
+                choices: null,
+                effects: true
+            },
+            {
+                speaker: "ナレーション",
+                text: "数日後、昼休み。加藤先生は数学準備室で一人テストの採点をしていた。",
+                choices: null
+            },
+            {
+                speaker: "加藤",
+                text: "（思考中）北井先生へのアプローチ、第2フェーズを開始する。今度は数学の面白さを伝え、共通の話題を作る作戦だ。",
+                choices: null,
+                effects: true
+            },
+            {
+                speaker: "ナレーション",
+                text: "廊下でなみ先生を見つけた加藤先生は声をかける。",
+                choices: null
+            },
+            {
+                speaker: "加藤",
+                text: "北井先生、少しよろしいですか？",
+                choices: null
+            },
+            {
+                speaker: "なみ",
+                text: "は、はい...（緊張で固まる）",
+                choices: [
+                    {
+                        text: "A：「フィボナッチ数列の美しさについて1時間ほど語らせてください」",
+                        result: -7,
+                        san: -8
+                    },
+                    {
+                        text: "B：「君の授業の非効率性を改善するデータを用意しました」",
+                        result: -10,
+                        san: -12
+                    },
+                    {
+                        text: "C：「あの...お、お茶でも...」（顔を真っ赤にする）",
+                        result: -2,
+                        san: -5,
+                        special: "embarrass"
+                    }
+                ]
+            },
+            {
+                speaker: "なみ",
+                text: "ご、ごめんなさい！私、怒られるの怖いんです...！（涙目）",
+                choices: null
+            },
+            {
+                speaker: "大谷",
+                text: "おやおや〜、またなみ先生を困らせてますね、加藤センパイ。（爽やかな笑顔）その眼力、生徒も怖がってますよ？",
+                choices: null
+            },
+            {
+                speaker: "加藤",
+                text: "...私は怒っていない。ただ効率的な提案を...",
+                choices: null
+            },
+            {
+                speaker: "大谷",
+                text: "そういうとこですよ〜。なみ先生、俺と一緒に準備室行きましょう。お茶淹れますから！",
+                choices: null
+            },
+            {
+                speaker: "なみ",
+                text: "は、はい...！（救世主を見る目で大谷先生を見つめる）",
+                choices: null
+            },
+            {
+                speaker: "加藤",
+                text: "...。（青ペンを強く握りしめる）",
+                choices: null,
+                effects: true
+            },
+            {
+                speaker: "ナレーション",
+                text: "放課後、職員室。加藤先生は自席で論理的思考にふけっていた。",
+                choices: null
+            },
+            {
+                speaker: "加藤",
+                text: "（思考中）変数を見直す必要がある。僕の何が間違っているのか...方程式を解き直さねば。",
+                choices: null,
+                effects: true,
+                mathGame: true
+            },
+            {
+                speaker: "ナレーション",
+                text: "数日後、放課後の渡り廊下。加藤先生は決意を固めた。",
+                choices: null
+            },
+            {
+                speaker: "加藤",
+                text: "北井先生、あなたに伝えたいことがあります。",
+                choices: null
+            },
+            {
+                speaker: "なみ",
+                text: "は、はい...（恐る恐る）",
+                choices: null
+            },
+            {
+                speaker: "加藤",
+                text: "僕は...僕はあなたのことを...論理的に分析した結果、僕の感情関数において最大値を示すのがあなたであると結論づけました。",
+                choices: null,
+                effects: true
+            },
+            {
+                speaker: "なみ",
+                text: "え...？（混乱）",
+                choices: null
+            },
+            {
+                speaker: "加藤",
+                text: "つまり...好きです。交際を申し込みます。",
+                choices: null
+            },
+            {
+                speaker: "なみ",
+                text: "...す、すみません加藤先生...！私、大谷先生のことが...好きなんです...",
+                choices: null
+            },
+            {
+                speaker: "加藤",
+                text: "...そう、ですか。（青ペンのノック部分をカチカチ鳴らし続ける）",
+                choices: null
+            },
+            {
+                speaker: "なみ",
+                text: "本当に...ごめんなさい...（走り去る）",
+                choices: null
+            },
+            {
+                speaker: "加藤",
+                text: "...僕の計算式のどこが間違っていたんだ...（夕日を背に立ち尽くす）",
+                choices: null,
+                effects: true,
+                san: -20
+            },
+            {
+                speaker: "ナレーション",
+                text: "Phase 1 終了。加藤先生の心は深く傷つき、SAN値が大幅に低下した。そして翌日、彼を狙う影が忍び寄る...",
+                choices: null
+            }
+        ];
+
+        // Phase 2: 恐怖の逃走劇
+        const phase2Scenarios = [
+            {
+                speaker: "ナレーション",
+                text: "翌日、職員室。加藤先生は精神的に弱っていた。そんな彼に近づく強烈な香水の匂い...",
+                choices: null
+            },
+            {
+                speaker: "松本",
+                text: "あらぁ〜ん、加藤ちゃん♡ 元気ないわねぇ〜？お姉さんが慰めてあ・げ・る♡",
+                choices: null
+            },
+            {
+                speaker: "加藤",
+                text: "（背筋が凍る）ま、松本先生...お気遣いありがとうございますが、採点が...",
+                choices: null
+            },
+            {
+                speaker: "松本",
+                text: "そんなの後でいいじゃなぁい♡ ほら、準備室に来なさぁい〜（腕を掴もうとする）",
+                choices: null
+            },
+            {
+                speaker: "加藤",
+                text: "...！（とっさに逃げる）",
+                choices: null
+            },
+            {
+                speaker: "松本",
+                text: "あらぁ〜ん、逃げちゃダメよぉ〜♡ かぁ〜くれんぼぉ〜♡",
+                choices: null
+            },
+            {
+                speaker: "ナレーション",
+                text: "逃走劇スタート！職員室から安全地帯まで逃げ切れ！松本先生に捕まったら...Bad End確定！",
+                choices: null,
+                escapeGame: true
+            }
+        ];
+
+        // Phase 3: 安らぎの数式
+        const phase3Scenarios = [
+            {
+                speaker: "ナレーション",
+                text: "なんとか職員室の自席に戻った加藤先生。体力も精神力も限界だった。",
+                choices: null
+            },
+            {
+                speaker: "畑",
+                text: "あらあら、大変だったわねぇ。松本先生から逃げてきたの？（クスクス）",
+                choices: null
+            },
+            {
+                speaker: "加藤",
+                text: "...畑先生。もう...疲れました...（机に突っ伏す）",
+                choices: null
+            },
+            {
+                speaker: "畑",
+                text: "（優しく背中をさする）まぁまぁ。飴ちゃん食べて元気出して。",
+                choices: null
+            },
+            {
+                speaker: "加藤",
+                text: "...なぜ、畑先生だけが僕の話を聞いてくれるんですか？",
+                choices: null
+            },
+            {
+                speaker: "畑",
+                text: "それはね、加藤先生。私も数学教師だから。あなたの論理的思考、よくわかるのよ。",
+                choices: null
+            },
+            {
+                speaker: "加藤",
+                text: "...！",
+                choices: null,
+                effects: true
+            },
+            {
+                speaker: "畑",
+                text: "でもね、加藤先生。数学にも「感情」が必要なの。美しい証明には、エレガンスがある。",
+                choices: null
+            },
+            {
+                speaker: "加藤",
+                text: "エレガンス...？",
+                choices: null
+            },
+            {
+                speaker: "畑",
+                text: "そう。論理だけじゃない、何か...心を揺さぶるものがある。恋愛も同じよ。",
+                choices: null
+            },
+            {
+                speaker: "加藤",
+                text: "...畑先生は、僕の論理を否定しない。理解してくれる。初めてです、こんな感覚。",
+                choices: null,
+                effects: true
+            },
+            {
+                speaker: "畑",
+                text: "（微笑む）あらあら、それは...嬉しいわ。",
+                choices: null
+            },
+            {
+                speaker: "ナレーション",
+                text: "夕暮れの職員室。二人だけの静かな時間。加藤先生の心に、新しい感情が芽生え始めていた。",
+                choices: null
+            },
+            {
+                speaker: "加藤",
+                text: "畑先生...あなたといると、論理を超えた何かを感じます。",
+                choices: null
+            },
+            {
+                speaker: "畑",
+                text: "...加藤先生？",
+                choices: null
+            },
+            {
+                speaker: "加藤",
+                text: "僕は...若さに執着していました。北井先生への恋も、実は「若い女性を手に入れたい」という論理的目標だったのかもしれません。",
+                choices: null,
+                effects: true
+            },
+            {
+                speaker: "畑",
+                text: "...（静かに聞いている）",
+                choices: null
+            },
+            {
+                speaker: "加藤",
+                text: "でも、あなたといると...目の前にある「安らぎ」が、どんな計算式よりも美しい解であると気づきました。",
+                choices: null
+            },
+            {
+                speaker: "畑",
+                text: "加藤先生...（目に涙を浮かべる）",
+                choices: null
+            },
+            {
+                speaker: "ナレーション",
+                text: "加藤先生は、最後の選択を迫られる。",
+                choices: [
+                    {
+                        text: "なみ先生への未練を捨てきれない（若さへの執着）",
+                        ending: "normal"
+                    },
+                    {
+                        text: "畑先生の優しさに答えたい（真実の愛）",
+                        ending: "true"
+                    }
+                ]
+            }
+        ];
 
         function startGame() {
             document.getElementById('title-screen').style.display = 'none';
             document.getElementById('game-screen').style.display = 'block';
-            currentPhase = 1;
-            currentScene = 0;
-            namiAffection = 0;
+            gameState = {
+                currentPhase: 1,
+                currentScene: 0,
+                namiAffection: 0,
+                sanValue: 100,
+                items: [],
+                playerPos: 4,
+                matsumotoPos: 0,
+                escapeTurns: 0,
+                mathCorrect: 0
+            };
+            updateStatus();
             showScene();
+        }
+
+        function updateStatus() {
+            document.getElementById('nami-affection').textContent = gameState.namiAffection;
+            document.getElementById('san-value').textContent = gameState.sanValue;
+            
+            const namiBar = document.getElementById('nami-bar');
+            const sanBar = document.getElementById('san-bar');
+            
+            namiBar.style.width = Math.max(0, Math.min(100, 50 + gameState.namiAffection)) + '%';
+            sanBar.style.width = gameState.sanValue + '%';
+            
+            if (gameState.sanValue < 30) {
+                document.getElementById('san-value').classList.add('danger');
+            }
+            
+            // アイテム表示
+            const itemsDiv = document.getElementById('items');
+            itemsDiv.innerHTML = '';
+            gameState.items.forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'item';
+                itemDiv.textContent = item;
+                itemsDiv.appendChild(itemDiv);
+            });
         }
 
         function showScene() {
             const textWindow = document.getElementById('text-window');
             const textContent = document.getElementById('text-content');
             const choicesDiv = document.getElementById('choices');
-            const inputSection = document.getElementById('input-section');
             const mathEffects = document.getElementById('math-effects');
+            const escapeMap = document.getElementById('escape-map');
+            const mathGame = document.getElementById('math-game');
+            const inputSection = document.getElementById('input-section');
 
             choicesDiv.innerHTML = '';
             choicesDiv.style.display = 'none';
+            escapeMap.style.display = 'none';
+            mathGame.style.display = 'none';
             inputSection.style.display = 'none';
             mathEffects.innerHTML = '';
 
             let scene;
-            if (currentPhase === 1) {
-                scene = scenarios.phase1[currentScene];
-            } else if (currentPhase === 2) {
-                scene = scenarios.phase2[currentScene];
+            if (gameState.currentPhase === 1) {
+                scene = phase1Scenarios[gameState.currentScene];
+            } else if (gameState.currentPhase === 2) {
+                scene = phase2Scenarios[gameState.currentScene];
+            } else if (gameState.currentPhase === 3) {
+                scene = phase3Scenarios[gameState.currentScene];
             }
 
             if (!scene) {
-                if (currentPhase === 1) {
+                if (gameState.currentPhase === 1) {
                     startPhase2();
-                } else if (currentPhase === 2) {
+                } else if (gameState.currentPhase === 2) {
                     startPhase3();
                 }
                 return;
             }
 
-            // 演出変更
-            if (currentPhase === 2) {
+            // Phase 2の演出
+            if (gameState.currentPhase === 2) {
                 textWindow.classList.remove('normal');
                 textWindow.classList.add('horror');
                 document.getElementById('game-header').classList.add('horror');
                 document.getElementById('game-header').textContent = 'Phase 2: 恐怖の逃走劇';
+            } else if (gameState.currentPhase === 3) {
+                textWindow.classList.remove('horror');
+                textWindow.classList.add('normal');
+                document.getElementById('game-header').classList.remove('horror');
+                document.getElementById('game-header').textContent = 'Phase 3: 安らぎの数式';
             }
 
             // 数式エフェクト
             if (scene.effects) {
-                const symbols = ['∫', '∑', '√', 'π', 'θ', '∞', '∂', '≈', '≠', '≡'];
-                for (let i = 0; i < 5; i++) {
+                const symbols = ['∫', '∑', '√', 'π', 'θ', '∞', '∂', '≈', '≠', '≡', 'Δ', 'Σ', 'α', 'β', 'γ'];
+                for (let i = 0; i < 8; i++) {
                     const symbol = document.createElement('div');
                     symbol.className = 'math-symbol';
                     symbol.textContent = symbols[Math.floor(Math.random() * symbols.length)];
@@ -587,11 +1087,42 @@
             }
 
             // テキスト表示
-            const speakerClass = currentPhase === 2 ? 'horror' : '';
+            const speakerClass = gameState.currentPhase === 2 ? 'horror' : '';
             textContent.innerHTML = `
                 <span class="character-name ${speakerClass}">${scene.speaker}</span>
                 ${scene.text}
             `;
+
+            // アイテム入手
+            if (scene.item) {
+                gameState.items.push(scene.item);
+                updateStatus();
+                showNotification(`「${scene.item}」を手に入れた！`);
+            }
+
+            // SAN値変更
+            if (scene.san) {
+                gameState.sanValue = Math.max(0, Math.min(100, gameState.sanValue + scene.san));
+                updateStatus();
+            }
+
+            // 数式ミニゲーム
+            if (scene.mathGame) {
+                setTimeout(() => {
+                    mathGame.style.display = 'block';
+                    startMathGame();
+                }, 500);
+                return;
+            }
+
+            // 逃走ゲーム
+            if (scene.escapeGame) {
+                setTimeout(() => {
+                    escapeMap.style.display = 'block';
+                    initEscapeGame();
+                }, 500);
+                return;
+            }
 
             // 選択肢表示
             if (scene.choices) {
@@ -599,16 +1130,23 @@
                     choicesDiv.style.display = 'block';
                     scene.choices.forEach((choice, index) => {
                         const button = document.createElement('button');
-                        button.className = 'choice-button' + (currentPhase === 2 ? ' horror' : '');
+                        button.className = 'choice-button' + (gameState.currentPhase === 2 ? ' horror' : '');
                         button.textContent = choice.text;
-                        button.onclick = () => makeChoice(index, choice.result);
+                        
+                        if (choice.ending) {
+                            button.onclick = () => {
+                                if (choice.ending === 'normal') {
+                                    normalEnding();
+                                } else if (choice.ending === 'true') {
+                                    trueEnding();
+                                }
+                            };
+                        } else {
+                            button.onclick = () => makeChoice(index, choice);
+                        }
+                        
                         choicesDiv.appendChild(button);
                     });
-                }, 500);
-            } else if (scene.input) {
-                setTimeout(() => {
-                    inputSection.style.display = 'block';
-                    startTimer();
                 }, 500);
             } else {
                 // 次へボタン
@@ -623,25 +1161,181 @@
             }
         }
 
-        function makeChoice(index, affectionChange) {
-            namiAffection += affectionChange;
+        function makeChoice(index, choice) {
+            if (choice.result) {
+                gameState.namiAffection += choice.result;
+            }
+            if (choice.san) {
+                gameState.sanValue = Math.max(0, Math.min(100, gameState.sanValue + choice.san));
+            }
+            updateStatus();
             playSound();
             nextScene();
         }
 
         function nextScene() {
-            currentScene++;
+            gameState.currentScene++;
             showScene();
         }
 
         function startPhase2() {
-            currentPhase = 2;
-            currentScene = 0;
+            gameState.currentPhase = 2;
+            gameState.currentScene = 0;
             showScene();
         }
 
-        function startTimer() {
-            timeLeft = 10;
+        function startPhase3() {
+            gameState.currentPhase = 3;
+            gameState.currentScene = 0;
+            showScene();
+        }
+
+        // 数式ミニゲーム
+        function startMathGame() {
+            const num1 = Math.floor(Math.random() * 20) + 5;
+            const num2 = Math.floor(Math.random() * 20) + 5;
+            const operators = ['+', '-', '×'];
+            const operator = operators[Math.floor(Math.random() * operators.length)];
+            
+            let answer;
+            if (operator === '+') answer = num1 + num2;
+            else if (operator === '-') answer = num1 - num2;
+            else answer = num1 * num2;
+            
+            document.getElementById('math-question').textContent = `${num1} ${operator} ${num2} = ?`;
+            document.getElementById('math-input').value = '';
+            document.getElementById('math-input').dataset.answer = answer;
+        }
+
+        function submitMathAnswer() {
+            const input = document.getElementById('math-input');
+            const userAnswer = parseInt(input.value);
+            const correctAnswer = parseInt(input.dataset.answer);
+            
+            if (userAnswer === correctAnswer) {
+                gameState.mathCorrect++;
+                gameState.sanValue = Math.min(100, gameState.sanValue + 10);
+                updateStatus();
+                showNotification('正解！数学の力でSAN値が回復した！');
+                document.getElementById('math-game').style.display = 'none';
+                nextScene();
+            } else {
+                gameState.sanValue = Math.max(0, gameState.sanValue - 5);
+                updateStatus();
+                showNotification('不正解...もう一度考えよう');
+            }
+        }
+
+        // 逃走ゲーム
+        function initEscapeGame() {
+            gameState.playerPos = 4;
+            gameState.matsumotoPos = 0;
+            gameState.escapeTurns = 0;
+            renderEscapeMap();
+        }
+
+        function renderEscapeMap() {
+            const mapGrid = document.getElementById('map-grid');
+            mapGrid.innerHTML = '';
+            
+            const positions = ['廊下', '階段', '準備室', '廊下', '職員室(安全)', '準備室', '階段', '廊下', '図書室'];
+            
+            for (let i = 0; i < 9; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'map-cell';
+                
+                if (i === gameState.playerPos) {
+                    cell.classList.add('player');
+                    cell.textContent = '🏃';
+                    cell.title = positions[i];
+                } else if (i === gameState.matsumotoPos) {
+                    cell.classList.add('matsumoto');
+                    cell.textContent = '💋';
+                    cell.title = positions[i];
+                } else if (i === 4) {
+                    cell.classList.add('safe');
+                    cell.textContent = '🏠';
+                    cell.title = positions[i];
+                } else {
+                    cell.textContent = positions[i].substring(0, 2);
+                    cell.title = positions[i];
+                }
+                
+                cell.onclick = () => movePlayer(i);
+                mapGrid.appendChild(cell);
+            }
+            
+            document.getElementById('matsumoto-pos').textContent = positions[gameState.matsumotoPos];
+        }
+
+        function movePlayer(newPos) {
+            // 隣接チェック
+            const adjacents = getAdjacents(gameState.playerPos);
+            if (!adjacents.includes(newPos)) {
+                showNotification('そこには移動できません！');
+                return;
+            }
+            
+            gameState.playerPos = newPos;
+            gameState.escapeTurns++;
+            
+            // 松本先生の移動
+            const matsumotoAdjacents = getAdjacents(gameState.matsumotoPos);
+            const matsumotoTarget = matsumotoAdjacents.filter(pos => {
+                const distance = getDistance(pos, gameState.playerPos);
+                return distance < getDistance(gameState.matsumotoPos, gameState.playerPos);
+            });
+            
+            if (matsumotoTarget.length > 0) {
+                gameState.matsumotoPos = matsumotoTarget[Math.floor(Math.random() * matsumotoTarget.length)];
+            } else {
+                gameState.matsumotoPos = matsumotoAdjacents[Math.floor(Math.random() * matsumotoAdjacents.length)];
+            }
+            
+            renderEscapeMap();
+            
+            // 捕まった
+            if (gameState.playerPos === gameState.matsumotoPos) {
+                document.getElementById('escape-map').style.display = 'none';
+                setTimeout(() => {
+                    const excuseChance = Math.random() > 0.5;
+                    if (excuseChance) {
+                        startExcuseInput();
+                    } else {
+                        badEnding();
+                    }
+                }, 500);
+            }
+            // ゴール
+            else if (gameState.playerPos === 4) {
+                document.getElementById('escape-map').style.display = 'none';
+                showNotification('職員室の自席に辿り着いた！');
+                setTimeout(() => startPhase3(), 1500);
+            }
+        }
+
+        function getAdjacents(pos) {
+            const adjacents = [];
+            if (pos % 3 !== 0) adjacents.push(pos - 1);
+            if (pos % 3 !== 2) adjacents.push(pos + 1);
+            if (pos >= 3) adjacents.push(pos - 3);
+            if (pos < 6) adjacents.push(pos + 3);
+            return adjacents;
+        }
+
+        function getDistance(pos1, pos2) {
+            const row1 = Math.floor(pos1 / 3);
+            const col1 = pos1 % 3;
+            const row2 = Math.floor(pos2 / 3);
+            const col2 = pos2 % 3;
+            return Math.abs(row1 - row2) + Math.abs(col1 - col2);
+        }
+
+        // 言い訳入力
+        function startExcuseInput() {
+            document.getElementById('input-section').style.display = 'block';
+            document.getElementById('excuse-input').value = '';
+            timeLeft = 15;
             updateTimer();
             timerInterval = setInterval(() => {
                 timeLeft--;
@@ -661,60 +1355,40 @@
             const input = document.getElementById('excuse-input').value.trim();
             clearInterval(timerInterval);
             
-            if (input.length > 10) {
-                // 成功
-                playSound();
-                startPhase3();
+            const logicalWords = ['なぜなら', '故に', 'したがって', 'ゆえに', '論理的', '計算', '証明', 'データ', '効率'];
+            const hasLogic = logicalWords.some(word => input.includes(word));
+            
+            if (input.length >= 15 && hasLogic) {
+                showNotification('論理的な言い訳が功を奏した！');
+                document.getElementById('input-section').style.display = 'none';
+                document.getElementById('escape-map').style.display = 'block';
+                gameState.matsumotoPos = Math.floor(Math.random() * 9);
+                renderEscapeMap();
             } else {
-                // 失敗
+                showNotification('言い訳が不十分！もっと論理的に！');
                 badEnding();
             }
         }
 
-        function startPhase3() {
+        // エンディング
+        function normalEnding() {
             document.getElementById('game-screen').style.display = 'none';
             const endingScreen = document.getElementById('ending-screen');
-            endingScreen.className = '';
-            endingScreen.style.display = 'block';
-            
-            // Phase 3のシナリオ
-            endingScreen.innerHTML = `
-                <h2>Phase 3: 安らぎの数式</h2>
-                <p>松本先生から逃げ延び、席に戻った加藤先生。<br>
-                隣の席には、いつも優しい畑先生がいた。</p>
-                <p><strong>畑先生:</strong> 「あらあら、大変だったわねぇ。飴ちゃん食べる？」</p>
-                <p><strong>加藤:</strong> 「...ありがとうございます」</p>
-                <p>畑先生だけが、加藤先生の論理を理解してくれる。<br>
-                この安らぎこそが、真実かもしれない...</p>
-                <div id="final-choices"></div>
-            `;
-
-            setTimeout(() => {
-                const choicesDiv = document.getElementById('final-choices');
-                
-                const button1 = document.createElement('button');
-                button1.className = 'choice-button';
-                button1.textContent = 'なみ先生への未練を捨てきれない';
-                button1.onclick = normalEnding;
-                choicesDiv.appendChild(button1);
-
-                const button2 = document.createElement('button');
-                button2.className = 'choice-button';
-                button2.textContent = '畑先生の優しさに答えたい';
-                button2.onclick = trueEnding;
-                choicesDiv.appendChild(button2);
-            }, 1000);
-        }
-
-        function normalEnding() {
-            const endingScreen = document.getElementById('ending-screen');
             endingScreen.className = 'normal';
+            endingScreen.style.display = 'block';
             endingScreen.innerHTML = `
                 <h2>End A：計算違いの孤独</h2>
                 <p>加藤先生はなみ先生への思いを捨てきれなかった。</p>
                 <p>翌日、渡り廊下で大谷先生と並んで歩くなみ先生を遠くから見つめる。</p>
                 <p><strong>加藤:</strong> 「僕の計算式のどこが間違っていたんだ...」</p>
-                <p>青ペンを握りしめ、加藤先生は通常業務に戻った。</p>
+                <p>青ペンを握りしめ、加藤先生は通常業務に戻った。<br>
+                畑先生は優しく微笑んでいたが、その目には少しだけ寂しさが宿っていた。</p>
+                <p style="margin-top: 20px; font-size: 14px; color: #666;">
+                最終スコア<br>
+                なみ先生好感度: ${gameState.namiAffection}<br>
+                SAN値: ${gameState.sanValue}<br>
+                数学正解数: ${gameState.mathCorrect}
+                </p>
                 <button class="restart-button" onclick="location.reload()">タイトルに戻る</button>
             `;
         }
@@ -728,9 +1402,16 @@
             endingScreen.innerHTML = `
                 <h2>End B：捕食</h2>
                 <p>松本先生の罠にかかってしまった！</p>
-                <p style="font-size: 48px; color: #c2185b;">💋</p>
+                <p style="font-size: 64px; margin: 20px 0;">💋</p>
                 <p><strong>松本:</strong> 「加藤ちゃんは、私が育ててあ・げ・る♡」</p>
-                <p>加藤先生は英語準備室に連れ込まれ、そこから出てくることはなかった...</p>
+                <p>加藤先生は英語準備室に連れ込まれた。<br>
+                そこから出てきた時、彼は別人のように憔悴しきっていた...</p>
+                <p>数日後、畑先生は空席となった隣の席を見て、小さくため息をついた。</p>
+                <p style="margin-top: 20px; font-size: 14px; color: #666;">
+                最終スコア<br>
+                SAN値: ${gameState.sanValue}<br>
+                逃走ターン数: ${gameState.escapeTurns}
+                </p>
                 <button class="restart-button" onclick="location.reload()">タイトルに戻る</button>
             `;
         }
@@ -743,14 +1424,32 @@
                 <p>夕暮れの職員室。加藤先生は青ペンを置き、畑先生から貰った黒糖飴を舐める。</p>
                 <p><strong>加藤:</strong> 「非論理的だと思っていたが...悪くない」</p>
                 <p><strong>畑:</strong> 「あらあら、そうでしょう？人生、計算通りにはいかないものよ」</p>
-                <p>二人は定年まで仲良く隣の席で働き続けた。</p>
-                <p style="font-size: 32px;">🌟 TRUE END 🌟</p>
+                <p>畑先生は優しく微笑み、加藤先生の手を握る。</p>
+                <p><strong>加藤:</strong> 「畑先生...僕は今、人生で最も美しい証明を完成させた気がします」</p>
+                <p><strong>畑:</strong> 「Q.E.D.（証明終了）ね、加藤先生」</p>
+                <p>二人は定年まで仲良く隣の席で働き続けた。<br>
+                時々、松本先生から逃げながら。</p>
+                <p style="font-size: 48px; margin: 20px 0;">🌟 TRUE END 🌟</p>
+                <p style="margin-top: 20px; font-size: 14px; color: #666;">
+                最終スコア<br>
+                SAN値: ${gameState.sanValue}<br>
+                数学正解数: ${gameState.mathCorrect}<br>
+                アイテム獲得数: ${gameState.items.length}
+                </p>
                 <button class="restart-button" onclick="location.reload()">タイトルに戻る</button>
             `;
         }
 
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 2000);
+        }
+
         function playSound() {
-            // クリック音のシミュレーション（実際の音声ファイルなし）
             console.log('カチッ（ボールペンのノック音）');
         }
     </script>
