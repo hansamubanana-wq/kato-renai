@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>恋の偏差値エラー 〜加藤先生、計算が合いません！〜</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            overflow-x: hidden;
+        }
+
+        #game-container {
+            width: 100%;
+            max-width: 600px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            position: relative;
+        }
+
+        #title-screen {
+            padding: 40px 20px;
+            text-align: center;
+            background: linear-gradient(180deg, #e3f2fd 0%, #bbdefb 100%);
+            position: relative;
+        }
+
+        #title-screen h1 {
+            font-size: 24px;
+            color: #1565c0;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        #title-screen h2 {
+            font-size: 18px;
+            color: #1976d2;
+            margin-bottom: 30px;
+        }
+
+        #title-screen .concept {
+            font-size: 16px;
+            color: #424242;
+            font-weight: bold;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        #title-screen .description {
+            font-size: 14px;
+            color: #616161;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .start-button {
+            background: linear-gradient(135deg, #1976d2, #1565c0);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 15px rgba(25, 118, 210, 0.4);
+        }
+
+        .start-button:active {
+            transform: scale(0.95);
+        }
+
+        #game-screen {
+            display: none;
+        }
+
+        .game-header {
+            background: #1976d2;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .game-header.horror {
+            background: linear-gradient(135deg, #ec407a, #ab47bc);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        #text-window {
+            min-height: 250px;
+            padding: 30px 20px;
+            background: #f5f5f5;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #text-window.normal {
+            background: repeating-linear-gradient(
+                0deg,
+                #e3f2fd,
+                #e3f2fd 30px,
+                #90caf9 30px,
+                #90caf9 31px
+            );
+        }
+
+        #text-window.horror {
+            background: repeating-linear-gradient(
+                45deg,
+                #fce4ec,
+                #fce4ec 30px,
+                #f8bbd0 30px,
+                #f8bbd0 31px
+            );
+            animation: shake 0.5s infinite;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-2px); }
+            75% { transform: translateX(2px); }
+        }
+
+        #text-content {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #212121;
+            position: relative;
+            z-index: 2;
+        }
+
+        .character-name {
+            font-weight: bold;
+            color: #1565c0;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .character-name.horror {
+            color: #c2185b;
+        }
+
+        #math-effects {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .math-symbol {
+            position: absolute;
+            font-size: 24px;
+            color: rgba(25, 118, 210, 0.2);
+            animation: float 3s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        #choices {
+            padding: 20px;
+            background: white;
+        }
+
+        .choice-button {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: white;
+            border: 2px solid #1976d2;
+            border-radius: 10px;
+            font-size: 15px;
+            color: #1565c0;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+            line-height: 1.5;
+        }
+
+        .choice-button:hover {
+            background: #e3f2fd;
+            transform: translateX(5px);
+        }
+
+        .choice-button:active {
+            transform: scale(0.98);
+        }
+
+        .choice-button.horror {
+            border-color: #ec407a;
+            color: #c2185b;
+        }
+
+        .choice-button.horror:hover {
+            background: #fce4ec;
+        }
+
+        #input-section {
+            display: none;
+            padding: 20px;
+            background: white;
+        }
+
+        #input-section input {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            border: 2px solid #ec407a;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        #timer {
+            text-align: center;
+            font-size: 24px;
+            color: #c2185b;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #ec407a, #ab47bc);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .continue-button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 20px;
+            background: linear-gradient(135deg, #1976d2, #1565c0);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #ending-screen {
+            display: none;
+            padding: 40px 20px;
+            text-align: center;
+            min-height: 400px;
+        }
+
+        #ending-screen.normal {
+            background: linear-gradient(180deg, #e3f2fd 0%, #90caf9 100%);
+        }
+
+        #ending-screen.bad {
+            background: linear-gradient(180deg, #fce4ec 0%, #f8bbd0 100%);
+        }
+
+        #ending-screen.true {
+            background: linear-gradient(180deg, #fff9c4 0%, #fff59d 100%);
+        }
+
+        #ending-screen h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        #ending-screen p {
+            font-size: 16px;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .restart-button {
+            background: linear-gradient(135deg, #1976d2, #1565c0);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 16px;
+            border-radius: 30px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 400px) {
+            #title-screen h1 {
+                font-size: 20px;
+            }
+            
+            #text-content {
+                font-size: 14px;
+            }
+            
+            .choice-button {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <!-- タイトル画面 -->
+        <div id="title-screen">
+            <h1>恋の偏差値エラー</h1>
+            <h2>〜加藤先生、計算が合いません！〜</h2>
+            <div class="concept">「愛は論理（ロジック）では解けない。」</div>
+            <div class="description">
+                論理的思考と青ペンを武器に生きる堅物教師・加藤が、<br>
+                「恋愛」という最大の非論理的課題に挑む。
+            </div>
+            <button class="start-button" onclick="startGame()">ゲームスタート</button>
+        </div>
+
+        <!-- ゲーム画面 -->
+        <div id="game-screen">
+            <div id="game-header" class="game-header">Phase 1: 勘違いの求愛</div>
+            
+            <div id="text-window" class="normal">
+                <div id="math-effects"></div>
+                <div id="text-content"></div>
+            </div>
+
+            <div id="choices"></div>
+            
+            <div id="input-section">
+                <div id="timer"></div>
+                <input type="text" id="excuse-input" placeholder="論理的な言い訳を入力してください">
+                <button class="submit-button" onclick="submitExcuse()">送信</button>
+            </div>
+        </div>
+
+        <!-- エンディング画面 -->
+        <div id="ending-screen"></div>
+    </div>
+
+    <script>
+        let currentPhase = 0;
+        let currentScene = 0;
+        let namiAffection = 0;
+        let timerInterval;
+        let timeLeft = 10;
+
+        const scenarios = {
+            phase1: [
+                {
+                    speaker: "ナレーション",
+                    text: "職員室。加藤先生は隣の席に座る北井なみ先生を観察していた。",
+                    choices: null
+                },
+                {
+                    speaker: "加藤",
+                    text: "（思考中）なみ先生との適合率は高いはずだ。なぜなら同じ国語科で、席が近いからだ。完璧な論理だ。",
+                    choices: null,
+                    effects: true
+                },
+                {
+                    speaker: "ナレーション",
+                    text: "そんな時、なみ先生が書類を床に落としてしまった。",
+                    choices: null
+                },
+                {
+                    speaker: "なみ",
+                    text: "あ...すみません...",
+                    choices: [
+                        {
+                            text: "A：ミスの原因をチャート図にして提出する",
+                            result: -3
+                        },
+                        {
+                            text: "B：「君の脳のメモリ不足だね」と指摘する",
+                            result: -5
+                        },
+                        {
+                            text: "C：無言で自分の青ペンを貸す",
+                            result: -2
+                        }
+                    ]
+                },
+                {
+                    speaker: "なみ",
+                    text: "ヒッ...！（怯えた表情）",
+                    choices: null
+                },
+                {
+                    speaker: "大谷",
+                    text: "なみ先生、大丈夫ですか？僕が拾いますよ〜（爽やかな笑顔）",
+                    choices: null
+                },
+                {
+                    speaker: "なみ",
+                    text: "あ、ありがとうございます大谷先生...（ホッとした表情）",
+                    choices: null
+                },
+                {
+                    speaker: "加藤",
+                    text: "（思考中）...計算が合わない。なぜだ？",
+                    choices: null,
+                    effects: true
+                },
+                {
+                    speaker: "ナレーション",
+                    text: "数日後、放課後の準備室。加藤先生は再びなみ先生にアプローチを試みた。",
+                    choices: null
+                },
+                {
+                    speaker: "加藤",
+                    text: "なみ先生、お話があります。",
+                    choices: null
+                },
+                {
+                    speaker: "なみ",
+                    text: "は、はい...（緊張）",
+                    choices: [
+                        {
+                            text: "A：「君との適合率について、データを用意しました」",
+                            result: -3
+                        },
+                        {
+                            text: "B：「効率的な関係構築の提案があります」",
+                            result: -4
+                        },
+                        {
+                            text: "C：「...一緒に、お茶でも」（精一杯の優しさ）",
+                            result: -2
+                        }
+                    ]
+                },
+                {
+                    speaker: "なみ",
+                    text: "ご、ごめんなさい！私、怒られるの怖いんです...！（泣きそう）",
+                    choices: null
+                },
+                {
+                    speaker: "大谷",
+                    text: "おっと、なみ先生また怯えてますね〜。加藤センパイ、その眼力だと生徒も怖がりますよ？（ニコッ）",
+                    choices: null
+                },
+                {
+                    speaker: "加藤",
+                    text: "...。",
+                    choices: null
+                },
+                {
+                    speaker: "ナレーション",
+                    text: "そして、放課後の渡り廊下。加藤先生は決意を固めた。",
+                    choices: null
+                },
+                {
+                    speaker: "加藤",
+                    text: "なみ先生。僕は...僕はあなたのことが...",
+                    choices: null,
+                    effects: true
+                },
+                {
+                    speaker: "なみ",
+                    text: "す、すみません加藤先生...！私、大谷先生のことが...好きなんです...",
+                    choices: null
+                },
+                {
+                    speaker: "加藤",
+                    text: "...そう、ですか。（青ペンをぎゅっと握る）",
+                    choices: null
+                },
+                {
+                    speaker: "ナレーション",
+                    text: "Phase 1 終了。加藤先生の心は深く傷ついた。そして、その時...",
+                    choices: null
+                }
+            ],
+            phase2: [
+                {
+                    speaker: "ナレーション",
+                    text: "翌日、職員室。加藤先生は精神的に弱っていた。そんな彼に近づく影が...",
+                    choices: null
+                },
+                {
+                    speaker: "松本",
+                    text: "あらぁ〜ん、加藤ちゃん♡ 元気ないわねぇ〜？",
+                    choices: null
+                },
+                {
+                    speaker: "加藤",
+                    text: "（背筋が凍る）ま、松本先生...！",
+                    choices: null
+                },
+                {
+                    speaker: "松本",
+                    text: "私が慰めてあ・げ・る♡ さぁ、準備室に来なさぁい〜",
+                    choices: null
+                },
+                {
+                    speaker: "ナレーション",
+                    text: "松本先生の強烈な香水の匂いが迫ってくる！逃げるんだ、加藤先生！",
+                    choices: null
+                },
+                {
+                    speaker: "ナレーション",
+                    text: "廊下で松本先生に見つかってしまった！10秒以内に論理的な言い訳を入力しろ！",
+                    choices: null,
+                    input: true
+                }
+            ]
+        };
+
+        function startGame() {
+            document.getElementById('title-screen').style.display = 'none';
+            document.getElementById('game-screen').style.display = 'block';
+            currentPhase = 1;
+            currentScene = 0;
+            namiAffection = 0;
+            showScene();
+        }
+
+        function showScene() {
+            const textWindow = document.getElementById('text-window');
+            const textContent = document.getElementById('text-content');
+            const choicesDiv = document.getElementById('choices');
+            const inputSection = document.getElementById('input-section');
+            const mathEffects = document.getElementById('math-effects');
+
+            choicesDiv.innerHTML = '';
+            choicesDiv.style.display = 'none';
+            inputSection.style.display = 'none';
+            mathEffects.innerHTML = '';
+
+            let scene;
+            if (currentPhase === 1) {
+                scene = scenarios.phase1[currentScene];
+            } else if (currentPhase === 2) {
+                scene = scenarios.phase2[currentScene];
+            }
+
+            if (!scene) {
+                if (currentPhase === 1) {
+                    startPhase2();
+                } else if (currentPhase === 2) {
+                    startPhase3();
+                }
+                return;
+            }
+
+            // 演出変更
+            if (currentPhase === 2) {
+                textWindow.classList.remove('normal');
+                textWindow.classList.add('horror');
+                document.getElementById('game-header').classList.add('horror');
+                document.getElementById('game-header').textContent = 'Phase 2: 恐怖の逃走劇';
+            }
+
+            // 数式エフェクト
+            if (scene.effects) {
+                const symbols = ['∫', '∑', '√', 'π', 'θ', '∞', '∂', '≈', '≠', '≡'];
+                for (let i = 0; i < 5; i++) {
+                    const symbol = document.createElement('div');
+                    symbol.className = 'math-symbol';
+                    symbol.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                    symbol.style.left = Math.random() * 80 + '%';
+                    symbol.style.top = Math.random() * 80 + '%';
+                    symbol.style.animationDelay = Math.random() * 2 + 's';
+                    mathEffects.appendChild(symbol);
+                }
+            }
+
+            // テキスト表示
+            const speakerClass = currentPhase === 2 ? 'horror' : '';
+            textContent.innerHTML = `
+                <span class="character-name ${speakerClass}">${scene.speaker}</span>
+                ${scene.text}
+            `;
+
+            // 選択肢表示
+            if (scene.choices) {
+                setTimeout(() => {
+                    choicesDiv.style.display = 'block';
+                    scene.choices.forEach((choice, index) => {
+                        const button = document.createElement('button');
+                        button.className = 'choice-button' + (currentPhase === 2 ? ' horror' : '');
+                        button.textContent = choice.text;
+                        button.onclick = () => makeChoice(index, choice.result);
+                        choicesDiv.appendChild(button);
+                    });
+                }, 500);
+            } else if (scene.input) {
+                setTimeout(() => {
+                    inputSection.style.display = 'block';
+                    startTimer();
+                }, 500);
+            } else {
+                // 次へボタン
+                setTimeout(() => {
+                    choicesDiv.style.display = 'block';
+                    const button = document.createElement('button');
+                    button.className = 'continue-button';
+                    button.textContent = '次へ';
+                    button.onclick = nextScene;
+                    choicesDiv.appendChild(button);
+                }, 500);
+            }
+        }
+
+        function makeChoice(index, affectionChange) {
+            namiAffection += affectionChange;
+            playSound();
+            nextScene();
+        }
+
+        function nextScene() {
+            currentScene++;
+            showScene();
+        }
+
+        function startPhase2() {
+            currentPhase = 2;
+            currentScene = 0;
+            showScene();
+        }
+
+        function startTimer() {
+            timeLeft = 10;
+            updateTimer();
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimer();
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    badEnding();
+                }
+            }, 1000);
+        }
+
+        function updateTimer() {
+            document.getElementById('timer').textContent = `残り時間: ${timeLeft}秒`;
+        }
+
+        function submitExcuse() {
+            const input = document.getElementById('excuse-input').value.trim();
+            clearInterval(timerInterval);
+            
+            if (input.length > 10) {
+                // 成功
+                playSound();
+                startPhase3();
+            } else {
+                // 失敗
+                badEnding();
+            }
+        }
+
+        function startPhase3() {
+            document.getElementById('game-screen').style.display = 'none';
+            const endingScreen = document.getElementById('ending-screen');
+            endingScreen.className = '';
+            endingScreen.style.display = 'block';
+            
+            // Phase 3のシナリオ
+            endingScreen.innerHTML = `
+                <h2>Phase 3: 安らぎの数式</h2>
+                <p>松本先生から逃げ延び、席に戻った加藤先生。<br>
+                隣の席には、いつも優しい畑先生がいた。</p>
+                <p><strong>畑先生:</strong> 「あらあら、大変だったわねぇ。飴ちゃん食べる？」</p>
+                <p><strong>加藤:</strong> 「...ありがとうございます」</p>
+                <p>畑先生だけが、加藤先生の論理を理解してくれる。<br>
+                この安らぎこそが、真実かもしれない...</p>
+                <div id="final-choices"></div>
+            `;
+
+            setTimeout(() => {
+                const choicesDiv = document.getElementById('final-choices');
+                
+                const button1 = document.createElement('button');
+                button1.className = 'choice-button';
+                button1.textContent = 'なみ先生への未練を捨てきれない';
+                button1.onclick = normalEnding;
+                choicesDiv.appendChild(button1);
+
+                const button2 = document.createElement('button');
+                button2.className = 'choice-button';
+                button2.textContent = '畑先生の優しさに答えたい';
+                button2.onclick = trueEnding;
+                choicesDiv.appendChild(button2);
+            }, 1000);
+        }
+
+        function normalEnding() {
+            const endingScreen = document.getElementById('ending-screen');
+            endingScreen.className = 'normal';
+            endingScreen.innerHTML = `
+                <h2>End A：計算違いの孤独</h2>
+                <p>加藤先生はなみ先生への思いを捨てきれなかった。</p>
+                <p>翌日、渡り廊下で大谷先生と並んで歩くなみ先生を遠くから見つめる。</p>
+                <p><strong>加藤:</strong> 「僕の計算式のどこが間違っていたんだ...」</p>
+                <p>青ペンを握りしめ、加藤先生は通常業務に戻った。</p>
+                <button class="restart-button" onclick="location.reload()">タイトルに戻る</button>
+            `;
+        }
+
+        function badEnding() {
+            clearInterval(timerInterval);
+            document.getElementById('game-screen').style.display = 'none';
+            const endingScreen = document.getElementById('ending-screen');
+            endingScreen.className = 'bad';
+            endingScreen.style.display = 'block';
+            endingScreen.innerHTML = `
+                <h2>End B：捕食</h2>
+                <p>松本先生の罠にかかってしまった！</p>
+                <p style="font-size: 48px; color: #c2185b;">💋</p>
+                <p><strong>松本:</strong> 「加藤ちゃんは、私が育ててあ・げ・る♡」</p>
+                <p>加藤先生は英語準備室に連れ込まれ、そこから出てくることはなかった...</p>
+                <button class="restart-button" onclick="location.reload()">タイトルに戻る</button>
+            `;
+        }
+
+        function trueEnding() {
+            const endingScreen = document.getElementById('ending-screen');
+            endingScreen.className = 'true';
+            endingScreen.innerHTML = `
+                <h2>End C：証明完了</h2>
+                <p>夕暮れの職員室。加藤先生は青ペンを置き、畑先生から貰った黒糖飴を舐める。</p>
+                <p><strong>加藤:</strong> 「非論理的だと思っていたが...悪くない」</p>
+                <p><strong>畑:</strong> 「あらあら、そうでしょう？人生、計算通りにはいかないものよ」</p>
+                <p>二人は定年まで仲良く隣の席で働き続けた。</p>
+                <p style="font-size: 32px;">🌟 TRUE END 🌟</p>
+                <button class="restart-button" onclick="location.reload()">タイトルに戻る</button>
+            `;
+        }
+
+        function playSound() {
+            // クリック音のシミュレーション（実際の音声ファイルなし）
+            console.log('カチッ（ボールペンのノック音）');
+        }
+    </script>
+</body>
+</html>
