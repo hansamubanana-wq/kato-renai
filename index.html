@@ -68,6 +68,75 @@
             line-height: 1.6;
         }
 
+        /* モード選択 */
+        #mode-select {
+            display: none;
+            padding: 40px 20px;
+            text-align: center;
+            background: linear-gradient(180deg, #fff9c4 0%, #fff59d 100%);
+        }
+
+        #mode-select h2 {
+            font-size: 22px;
+            color: #f57f17;
+            margin-bottom: 30px;
+        }
+
+        .mode-button {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            margin: 15px auto;
+            background: white;
+            border: 3px solid #fbc02d;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: block;
+        }
+
+        .mode-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(251, 192, 45, 0.3);
+        }
+
+        .mode-button h3 {
+            font-size: 20px;
+            color: #f57f17;
+            margin-bottom: 10px;
+        }
+
+        .mode-button p {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* 名前入力 */
+        #name-input-screen {
+            display: none;
+            padding: 40px 20px;
+            text-align: center;
+            background: linear-gradient(180deg, #fce4ec 0%, #f8bbd0 100%);
+        }
+
+        #name-input-screen h2 {
+            font-size: 22px;
+            color: #c2185b;
+            margin-bottom: 20px;
+        }
+
+        #name-input-screen input {
+            width: 100%;
+            max-width: 300px;
+            padding: 15px;
+            font-size: 18px;
+            border: 2px solid #ec407a;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
         .start-button {
             background: linear-gradient(135deg, #1976d2, #1565c0);
             color: white;
@@ -84,6 +153,10 @@
             transform: scale(0.95);
         }
 
+        .start-button.pink {
+            background: linear-gradient(135deg, #ec407a, #d81b60);
+        }
+
         #game-screen {
             display: none;
         }
@@ -95,6 +168,10 @@
             text-align: center;
             font-size: 16px;
             font-weight: bold;
+        }
+
+        .game-header.romance {
+            background: linear-gradient(135deg, #ec407a, #f48fb1);
         }
 
         .game-header.horror {
@@ -140,6 +217,10 @@
             color: #d32f2f;
         }
 
+        .stat-value.love {
+            color: #ec407a;
+        }
+
         .stat-bar {
             width: 100%;
             height: 8px;
@@ -155,11 +236,14 @@
             transition: width 0.5s;
         }
 
+        .stat-bar-fill.love {
+            background: linear-gradient(90deg, #ec407a, #f48fb1);
+        }
+
         .stat-bar-fill.san {
             background: linear-gradient(90deg, #d32f2f, #f44336);
         }
 
-        /* アイテム欄 */
         #items {
             display: flex;
             gap: 5px;
@@ -194,6 +278,16 @@
             );
         }
 
+        #text-window.romance {
+            background: repeating-linear-gradient(
+                0deg,
+                #fce4ec,
+                #fce4ec 30px,
+                #f8bbd0 30px,
+                #f8bbd0 31px
+            );
+        }
+
         #text-window.horror {
             background: repeating-linear-gradient(
                 45deg,
@@ -211,6 +305,19 @@
             75% { transform: translateX(2px); }
         }
 
+        /* キャラ立ち絵風 */
+        .character-portrait {
+            text-align: center;
+            font-size: 80px;
+            margin: 10px 0;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         #text-content {
             font-size: 16px;
             line-height: 1.8;
@@ -226,8 +333,22 @@
             display: block;
         }
 
+        .character-name.nami {
+            color: #ec407a;
+        }
+
         .character-name.horror {
             color: #c2185b;
+        }
+
+        .inner-thought {
+            font-style: italic;
+            color: #999;
+            font-size: 14px;
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 5px;
         }
 
         #math-effects {
@@ -247,9 +368,22 @@
             animation: float 3s infinite;
         }
 
+        /* ハートエフェクト */
+        .heart-symbol {
+            position: absolute;
+            font-size: 24px;
+            color: rgba(236, 64, 122, 0.3);
+            animation: floatHeart 3s infinite;
+        }
+
         @keyframes float {
             0%, 100% { transform: translateY(0) rotate(0deg); }
             50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        @keyframes floatHeart {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-30px) scale(1.2); }
         }
 
         #choices {
@@ -281,24 +415,52 @@
             transform: scale(0.98);
         }
 
-        .choice-button.horror {
+        .choice-button.romance {
             border-color: #ec407a;
             color: #c2185b;
         }
 
-        .choice-button.horror:hover {
+        .choice-button.romance:hover {
             background: #fce4ec;
         }
 
-        .choice-button.disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+        .choice-button.horror {
+            border-color: #ab47bc;
+            color: #8e24aa;
         }
 
-        .choice-requirement {
+        .choice-button.horror:hover {
+            background: #f3e5f5;
+        }
+
+        .choice-result {
             font-size: 12px;
             color: #999;
             margin-top: 5px;
+        }
+
+        .choice-result.good {
+            color: #4caf50;
+        }
+
+        .choice-result.bad {
+            color: #f44336;
+        }
+
+        .continue-button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 20px;
+            background: linear-gradient(135deg, #1976d2, #1565c0);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .continue-button.romance {
+            background: linear-gradient(135deg, #ec407a, #f48fb1);
         }
 
         /* 逃走劇マップ */
@@ -395,19 +557,7 @@
             cursor: pointer;
         }
 
-        .continue-button {
-            width: 100%;
-            padding: 15px;
-            margin-top: 20px;
-            background: linear-gradient(135deg, #1976d2, #1565c0);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        /* ミニゲーム: 数式解答 */
+        /* 数式ミニゲーム */
         #math-game {
             display: none;
             padding: 20px;
@@ -452,6 +602,10 @@
             background: linear-gradient(180deg, #fff9c4 0%, #fff59d 100%);
         }
 
+        #ending-screen.nami {
+            background: linear-gradient(180deg, #fce4ec 0%, #f8bbd0 50%, #fff9c4 100%);
+        }
+
         #ending-screen h2 {
             font-size: 24px;
             margin-bottom: 20px;
@@ -488,6 +642,10 @@
             display: none;
         }
 
+        #notification.love {
+            background: rgba(236, 64, 122, 0.9);
+        }
+
         @media (max-width: 400px) {
             #title-screen h1 {
                 font-size: 20px;
@@ -519,7 +677,34 @@
                 肉食系おばさん教師からのホラーな逃走劇、<br>
                 そして隣席の熟年教師との真実の愛。
             </div>
-            <button class="start-button" onclick="startGame()">ゲームスタート</button>
+            <button class="start-button" onclick="showModeSelect()">ゲームスタート</button>
+        </div>
+
+        <!-- モード選択画面 -->
+        <div id="mode-select">
+            <h2>🎮 モード選択 🎮</h2>
+            <button class="mode-button" onclick="selectMode('kato')">
+                <h3>📘 加藤先生モード（ハードモード）</h3>
+                <p>論理的すぎる数学教師として、なみ先生への無謀な挑戦！<br>
+                ※なみ先生攻略は不可能。畑先生との真実の愛を目指せ。</p>
+            </button>
+            <button class="mode-button" onclick="selectMode('custom')">
+                <h3>💕 恋愛モード（ノーマル）</h3>
+                <p>あなた自身の名前で、なみ先生を攻略できる正統派恋愛ゲーム！<br>
+                ※適切な選択でなみ先生の心を掴め。大谷先生がライバル。</p>
+            </button>
+        </div>
+
+        <!-- 名前入力画面 -->
+        <div id="name-input-screen">
+            <h2>あなたの名前を入力してください</h2>
+            <p style="color: #666; margin-bottom: 20px;">
+                新任の数学教師として赴任してきたあなた。<br>
+                職員室で出会った国語教師・北井なみ先生に一目惚れ...！
+            </p>
+            <input type="text" id="player-name-input" placeholder="例：山田太郎" maxlength="10">
+            <br>
+            <button class="start-button pink" onclick="startGameWithName()">ゲーム開始</button>
         </div>
 
         <!-- ゲーム画面 -->
@@ -529,10 +714,10 @@
             <!-- ステータスバー -->
             <div id="status-bar">
                 <div class="stat">
-                    <div class="stat-label">なみ先生好感度</div>
-                    <div class="stat-value" id="nami-affection">0</div>
+                    <div class="stat-label" id="nami-label">なみ先生好感度</div>
+                    <div class="stat-value love" id="nami-affection">0</div>
                     <div class="stat-bar">
-                        <div class="stat-bar-fill" id="nami-bar" style="width: 50%"></div>
+                        <div class="stat-bar-fill love" id="nami-bar" style="width: 50%"></div>
                     </div>
                 </div>
                 <div class="stat">
@@ -547,6 +732,7 @@
             
             <div id="text-window" class="normal">
                 <div id="math-effects"></div>
+                <div id="character-portrait" class="character-portrait"></div>
                 <div id="text-content"></div>
             </div>
 
@@ -570,7 +756,7 @@
 
             <!-- 数式ミニゲーム -->
             <div id="math-game">
-                <h3>加藤先生の数学力で解決せよ！</h3>
+                <h3 id="math-game-title">加藤先生の数学力で解決せよ！</h3>
                 <div id="math-question"></div>
                 <input type="number" id="math-input" placeholder="答えを入力">
                 <button class="submit-button" onclick="submitMathAnswer()">回答</button>
@@ -584,12 +770,14 @@
     <script>
         // ゲーム状態
         let gameState = {
+            mode: 'kato', // 'kato' or 'custom'
+            playerName: '加藤',
             currentPhase: 0,
             currentScene: 0,
             namiAffection: 0,
             sanValue: 100,
             items: [],
-            playerPos: 4, // マップ中央
+            playerPos: 4,
             matsumotoPos: 0,
             escapeTurns: 0,
             mathCorrect: 0
@@ -597,9 +785,59 @@
 
         let timerInterval;
         let timeLeft = 15;
+        let currentScenarios = [];
 
-        // Phase 1: 勘違いの求愛
-        const phase1Scenarios = [
+        function showModeSelect() {
+            document.getElementById('title-screen').style.display = 'none';
+            document.getElementById('mode-select').style.display = 'block';
+        }
+
+        function selectMode(mode) {
+            gameState.mode = mode;
+            document.getElementById('mode-select').style.display = 'none';
+            
+            if (mode === 'kato') {
+                gameState.playerName = '加藤';
+                startGame();
+            } else {
+                document.getElementById('name-input-screen').style.display = 'block';
+            }
+        }
+
+        function startGameWithName() {
+            const nameInput = document.getElementById('player-name-input').value.trim();
+            if (nameInput.length === 0) {
+                showNotification('名前を入力してください！');
+                return;
+            }
+            gameState.playerName = nameInput;
+            document.getElementById('name-input-screen').style.display = 'none';
+            startGame();
+        }
+
+        function startGame() {
+            document.getElementById('game-screen').style.display = 'block';
+            gameState.currentPhase = 1;
+            gameState.currentScene = 0;
+            gameState.namiAffection = gameState.mode === 'kato' ? 0 : 50;
+            gameState.sanValue = 100;
+            gameState.items = [];
+            
+            if (gameState.mode === 'kato') {
+                document.getElementById('game-header').textContent = 'Phase 1: 勘違いの求愛';
+                currentScenarios = katoPhase1Scenarios;
+            } else {
+                document.getElementById('game-header').textContent = 'Phase 1: 運命の出会い';
+                document.getElementById('game-header').classList.add('romance');
+                currentScenarios = customPhase1Scenarios;
+            }
+            
+            updateStatus();
+            showScene();
+        }
+
+        // 加藤先生モードのシナリオ
+        const katoPhase1Scenarios = [
             {
                 speaker: "ナレーション",
                 text: "職員室。数学教師・加藤先生は青ペンを握りしめていた。隣の席に座る国語科・北井なみ先生を観察しながら。",
@@ -609,7 +847,8 @@
                 speaker: "加藤",
                 text: "（思考中）北井なみ先生との適合率を計算した結果...92.4%。根拠：①同じ職員室、②席が隣接、③毎日挨拶を交わす。完璧な論理だ。",
                 choices: null,
-                effects: true
+                effects: true,
+                portrait: "🧮"
             },
             {
                 speaker: "ナレーション",
@@ -635,50 +874,65 @@
                         result: -3,
                         san: -3
                     }
-                ]
+                ],
+                portrait: "🐰",
+                isNami: true
             },
             {
                 speaker: "なみ",
-                text: "ヒッ...！（怯えた表情で後ずさる）",
-                choices: null
+                text: "ヒッ...！",
+                innerThought: "（加藤先生の眼力が怖すぎる...怒ってる...？）",
+                choices: null,
+                portrait: "😨",
+                isNami: true
             },
             {
                 speaker: "大谷",
                 text: "おっと、なみ先生大丈夫ですか？（爽やかに書類を拾う）はい、どうぞ！",
-                choices: null
+                choices: null,
+                portrait: "😊"
             },
             {
                 speaker: "なみ",
-                text: "あ、ありがとうございます大谷先生...（ホッとした表情）",
-                choices: null
+                text: "あ、ありがとうございます大谷先生...！",
+                innerThought: "（大谷先生は優しくて...安心する...）",
+                choices: null,
+                portrait: "😌",
+                isNami: true
             },
             {
                 speaker: "加藤",
                 text: "（思考中）...おかしい。僕の方が論理的なアプローチをしたはずだ。なぜ大谷の方が好感度が上がるのだ？",
                 choices: null,
-                effects: true
+                effects: true,
+                portrait: "🤔"
             },
             {
                 speaker: "畑",
                 text: "（隣の席から）あらあら、加藤先生。人の心は数式では表せないのよ？飴ちゃんでも食べて落ち着きなさい。",
                 choices: null,
-                item: "黒糖飴"
+                item: "黒糖飴",
+                portrait: "👵"
             },
             {
                 speaker: "加藤",
                 text: "畑先生...（青ペンをカチカチ鳴らす）しかし、論理的に考えれば...",
-                choices: null
+                choices: null,
+                portrait: "🧮"
             },
             {
                 speaker: "畑",
                 text: "（クスクス笑いながら）そういうところよ、加藤先生。でも、それが加藤先生らしくて...好きよ？",
-                choices: null
+                choices: null,
+                portrait: "😊"
             },
             {
                 speaker: "加藤",
-                text: "...？（混乱）",
+                text: "...？",
+                innerThought: "（畑先生の言葉の意味が理解できない...好き...？データ不足だ）",
                 choices: null,
-                effects: true
+                effects: true,
+                portrait: "❓"
             },
             {
                 speaker: "ナレーション",
@@ -689,7 +943,8 @@
                 speaker: "加藤",
                 text: "（思考中）北井先生へのアプローチ、第2フェーズを開始する。今度は数学の面白さを伝え、共通の話題を作る作戦だ。",
                 choices: null,
-                effects: true
+                effects: true,
+                portrait: "🧮"
             },
             {
                 speaker: "ナレーション",
@@ -699,11 +954,20 @@
             {
                 speaker: "加藤",
                 text: "北井先生、少しよろしいですか？",
-                choices: null
+                choices: null,
+                portrait: "🧮"
             },
             {
                 speaker: "なみ",
-                text: "は、はい...（緊張で固まる）",
+                text: "は、はい...！",
+                innerThought: "（また怒られるのかな...ドキドキ...）",
+                choices: null,
+                portrait: "😰",
+                isNami: true
+            },
+            {
+                speaker: "加藤",
+                text: "あなたに、数学の美しさについてお話ししたいのです。",
                 choices: [
                     {
                         text: "A：「フィボナッチ数列の美しさについて1時間ほど語らせてください」",
@@ -718,41 +982,52 @@
                     {
                         text: "C：「あの...お、お茶でも...」（顔を真っ赤にする）",
                         result: -2,
-                        san: -5,
-                        special: "embarrass"
+                        san: -5
                     }
-                ]
+                ],
+                portrait: "🧮"
             },
             {
                 speaker: "なみ",
-                text: "ご、ごめんなさい！私、怒られるの怖いんです...！（涙目）",
-                choices: null
+                text: "ご、ごめんなさい！私、数学苦手で...！それに怒られるの怖いんです...！",
+                innerThought: "（加藤先生の目が...鋭すぎて...泣きそう...）",
+                choices: null,
+                portrait: "😢",
+                isNami: true
             },
             {
                 speaker: "大谷",
-                text: "おやおや〜、またなみ先生を困らせてますね、加藤センパイ。（爽やかな笑顔）その眼力、生徒も怖がってますよ？",
-                choices: null
+                text: "おやおや〜、またなみ先生を困らせてますね、加藤センパイ。その眼力、生徒も怖がってますよ？",
+                choices: null,
+                portrait: "😅"
             },
             {
                 speaker: "加藤",
                 text: "...私は怒っていない。ただ効率的な提案を...",
-                choices: null
+                choices: null,
+                portrait: "😐"
             },
             {
                 speaker: "大谷",
                 text: "そういうとこですよ〜。なみ先生、俺と一緒に準備室行きましょう。お茶淹れますから！",
-                choices: null
+                choices: null,
+                portrait: "😊"
             },
             {
                 speaker: "なみ",
-                text: "は、はい...！（救世主を見る目で大谷先生を見つめる）",
-                choices: null
+                text: "は、はい...！",
+                innerThought: "（大谷先生に助けられた...ありがたい...）",
+                choices: null,
+                portrait: "😌",
+                isNami: true
             },
             {
                 speaker: "加藤",
-                text: "...。（青ペンを強く握りしめる）",
+                text: "...。",
+                innerThought: "（青ペンを強く握りしめる。何が間違っているのか...）",
                 choices: null,
-                effects: true
+                effects: true,
+                portrait: "😞"
             },
             {
                 speaker: "ナレーション",
@@ -764,7 +1039,8 @@
                 text: "（思考中）変数を見直す必要がある。僕の何が間違っているのか...方程式を解き直さねば。",
                 choices: null,
                 effects: true,
-                mathGame: true
+                mathGame: true,
+                portrait: "🧮"
             },
             {
                 speaker: "ナレーション",
@@ -774,50 +1050,69 @@
             {
                 speaker: "加藤",
                 text: "北井先生、あなたに伝えたいことがあります。",
-                choices: null
+                choices: null,
+                portrait: "🧮"
             },
             {
                 speaker: "なみ",
-                text: "は、はい...（恐る恐る）",
-                choices: null
+                text: "は、はい...",
+                innerThought: "（また怒られるのかな...）",
+                choices: null,
+                portrait: "😰",
+                isNami: true
             },
             {
                 speaker: "加藤",
                 text: "僕は...僕はあなたのことを...論理的に分析した結果、僕の感情関数において最大値を示すのがあなたであると結論づけました。",
                 choices: null,
-                effects: true
+                effects: true,
+                portrait: "🧮"
             },
             {
                 speaker: "なみ",
-                text: "え...？（混乱）",
-                choices: null
+                text: "え...？",
+                innerThought: "（何を言ってるのか全然わからない...）",
+                choices: null,
+                portrait: "😵",
+                isNami: true
             },
             {
                 speaker: "加藤",
                 text: "つまり...好きです。交際を申し込みます。",
-                choices: null
+                choices: null,
+                portrait: "😳"
             },
             {
                 speaker: "なみ",
                 text: "...す、すみません加藤先生...！私、大谷先生のことが...好きなんです...",
-                choices: null
+                innerThought: "（ごめんなさい...でも加藤先生は怖くて...）",
+                choices: null,
+                portrait: "😢",
+                isNami: true
             },
             {
                 speaker: "加藤",
-                text: "...そう、ですか。（青ペンのノック部分をカチカチ鳴らし続ける）",
-                choices: null
+                text: "...そう、ですか。",
+                innerThought: "（青ペンのノック部分をカチカチ鳴らし続ける）",
+                choices: null,
+                portrait: "😔"
             },
             {
                 speaker: "なみ",
-                text: "本当に...ごめんなさい...（走り去る）",
-                choices: null
+                text: "本当に...ごめんなさい...！",
+                innerThought: "（走り去る）",
+                choices: null,
+                portrait: "🏃‍♀️",
+                isNami: true
             },
             {
                 speaker: "加藤",
-                text: "...僕の計算式のどこが間違っていたんだ...（夕日を背に立ち尽くす）",
+                text: "...僕の計算式のどこが間違っていたんだ...",
+                innerThought: "（夕日を背に立ち尽くす）",
                 choices: null,
                 effects: true,
-                san: -20
+                san: -20,
+                portrait: "😞"
             },
             {
                 speaker: "ナレーション",
@@ -826,179 +1121,383 @@
             }
         ];
 
-        // Phase 2: 恐怖の逃走劇
-        const phase2Scenarios = [
+        // 恋愛モードのシナリオ（なみ先生攻略可能）
+        const customPhase1Scenarios = [
             {
                 speaker: "ナレーション",
-                text: "翌日、職員室。加藤先生は精神的に弱っていた。そんな彼に近づく強烈な香水の匂い...",
+                text: `新年度、4月。${gameState.playerName || 'あなた'}は新任の数学教師として、この学校に赴任してきた。`,
                 choices: null
             },
             {
-                speaker: "松本",
-                text: "あらぁ〜ん、加藤ちゃん♡ 元気ないわねぇ〜？お姉さんが慰めてあ・げ・る♡",
-                choices: null
-            },
-            {
-                speaker: "加藤",
-                text: "（背筋が凍る）ま、松本先生...お気遣いありがとうございますが、採点が...",
-                choices: null
-            },
-            {
-                speaker: "松本",
-                text: "そんなの後でいいじゃなぁい♡ ほら、準備室に来なさぁい〜（腕を掴もうとする）",
-                choices: null
-            },
-            {
-                speaker: "加藤",
-                text: "...！（とっさに逃げる）",
-                choices: null
-            },
-            {
-                speaker: "松本",
-                text: "あらぁ〜ん、逃げちゃダメよぉ〜♡ かぁ〜くれんぼぉ〜♡",
-                choices: null
-            },
-            {
-                speaker: "ナレーション",
-                text: "逃走劇スタート！職員室から安全地帯まで逃げ切れ！松本先生に捕まったら...Bad End確定！",
+                speaker: "校長",
+                text: "では、新しく来てくれた数学科の先生を紹介します。",
                 choices: null,
-                escapeGame: true
-            }
-        ];
-
-        // Phase 3: 安らぎの数式
-        const phase3Scenarios = [
-            {
-                speaker: "ナレーション",
-                text: "なんとか職員室の自席に戻った加藤先生。体力も精神力も限界だった。",
-                choices: null
+                portrait: "👴"
             },
             {
-                speaker: "畑",
-                text: "あらあら、大変だったわねぇ。松本先生から逃げてきたの？（クスクス）",
-                choices: null
-            },
-            {
-                speaker: "加藤",
-                text: "...畑先生。もう...疲れました...（机に突っ伏す）",
-                choices: null
-            },
-            {
-                speaker: "畑",
-                text: "（優しく背中をさする）まぁまぁ。飴ちゃん食べて元気出して。",
-                choices: null
-            },
-            {
-                speaker: "加藤",
-                text: "...なぜ、畑先生だけが僕の話を聞いてくれるんですか？",
-                choices: null
-            },
-            {
-                speaker: "畑",
-                text: "それはね、加藤先生。私も数学教師だから。あなたの論理的思考、よくわかるのよ。",
-                choices: null
-            },
-            {
-                speaker: "加藤",
-                text: "...！",
+                speaker: gameState.playerName || 'あなた',
+                text: `${gameState.playerName}です。数学を担当します。よろしくお願いします。`,
                 choices: null,
-                effects: true
-            },
-            {
-                speaker: "畑",
-                text: "でもね、加藤先生。数学にも「感情」が必要なの。美しい証明には、エレガンスがある。",
-                choices: null
-            },
-            {
-                speaker: "加藤",
-                text: "エレガンス...？",
-                choices: null
-            },
-            {
-                speaker: "畑",
-                text: "そう。論理だけじゃない、何か...心を揺さぶるものがある。恋愛も同じよ。",
-                choices: null
-            },
-            {
-                speaker: "加藤",
-                text: "...畑先生は、僕の論理を否定しない。理解してくれる。初めてです、こんな感覚。",
-                choices: null,
-                effects: true
-            },
-            {
-                speaker: "畑",
-                text: "（微笑む）あらあら、それは...嬉しいわ。",
-                choices: null
+                portrait: "👤"
             },
             {
                 speaker: "ナレーション",
-                text: "夕暮れの職員室。二人だけの静かな時間。加藤先生の心に、新しい感情が芽生え始めていた。",
-                choices: null
-            },
-            {
-                speaker: "加藤",
-                text: "畑先生...あなたといると、論理を超えた何かを感じます。",
+                text: "職員室で自己紹介を終えたあなた。席に案内される。",
                 choices: null
             },
             {
                 speaker: "畑",
-                text: "...加藤先生？",
-                choices: null
-            },
-            {
-                speaker: "加藤",
-                text: "僕は...若さに執着していました。北井先生への恋も、実は「若い女性を手に入れたい」という論理的目標だったのかもしれません。",
+                text: `あらあら、${gameState.playerName}先生ね。私は畑と言います。数学科の先輩よ。よろしくね。`,
                 choices: null,
-                effects: true
+                item: "黒糖飴",
+                portrait: "👵"
             },
             {
-                speaker: "畑",
-                text: "...（静かに聞いている）",
-                choices: null
-            },
-            {
-                speaker: "加藤",
-                text: "でも、あなたといると...目の前にある「安らぎ」が、どんな計算式よりも美しい解であると気づきました。",
-                choices: null
-            },
-            {
-                speaker: "畑",
-                text: "加藤先生...（目に涙を浮かべる）",
-                choices: null
+                speaker: gameState.playerName || 'あなた',
+                text: "ありがとうございます、畑先生。",
+                choices: null,
+                portrait: "👤"
             },
             {
                 speaker: "ナレーション",
-                text: "加藤先生は、最後の選択を迫られる。",
+                text: "その時、職員室の入口から一人の女性教師が入ってきた。ショートカットで、小動物のような可愛らしい雰囲気。",
+                choices: null
+            },
+            {
+                speaker: "なみ",
+                text: "あ、おはようございます...！",
+                innerThought: "（新しい先生だ...緊張するな...）",
+                choices: null,
+                portrait: "🐰",
+                isNami: true,
+                effects: true,
+                effectType: 'heart'
+            },
+            {
+                speaker: "ナレーション",
+                text: "あなたは思わず見とれてしまった。可愛い...！",
+                choices: null
+            },
+            {
+                speaker: "畑",
+                text: "あら、なみちゃん。ちょうど良かったわ。隣の席になる新任の先生よ。",
+                choices: null,
+                portrait: "👵"
+            },
+            {
+                speaker: "なみ",
+                text: "あ、はじめまして...！北井なみと言います。国語を担当しています。",
+                innerThought: "（優しそうな人だといいな...）",
+                choices: null,
+                portrait: "😊",
+                isNami: true
+            },
+            {
+                speaker: gameState.playerName || 'あなた',
+                text: `${gameState.playerName}です。よろしくお願いします。`,
                 choices: [
                     {
-                        text: "なみ先生への未練を捨てきれない（若さへの執着）",
-                        ending: "normal"
+                        text: "A：「国語ですか。数学とは対照的ですね」（笑顔で）",
+                        result: 5,
+                        isGood: true
                     },
                     {
-                        text: "畑先生の優しさに答えたい（真実の愛）",
-                        ending: "true"
+                        text: "B：「国語は論理的思考力が不足しがちですが、大丈夫ですか？」",
+                        result: -5,
+                        isGood: false
+                    },
+                    {
+                        text: "C：「あ、あの...よろしく...」（緊張して目を逸らす）",
+                        result: 2,
+                        isGood: true
                     }
-                ]
+                ],
+                portrait: "👤"
+            },
+            {
+                speaker: "なみ",
+                text: "はい、こちらこそ！",
+                innerThought: "（良かった...優しそうな人だ）",
+                choices: null,
+                portrait: "😊",
+                isNami: true,
+                affectionCheck: true
+            },
+            {
+                speaker: "ナレーション",
+                text: "その時、爽やかな笑顔の男性教師が入ってきた。",
+                choices: null
+            },
+            {
+                speaker: "大谷",
+                text: "おっす！なみ先生、おはよう〜！",
+                choices: null,
+                portrait: "😊"
+            },
+            {
+                speaker: "なみ",
+                text: "あ、大谷先生！おはようございます！",
+                innerThought: "（大谷先生、今日も元気だな...）",
+                choices: null,
+                portrait: "😊",
+                isNami: true
+            },
+            {
+                speaker: "大谷",
+                text: `お、新しい先生？俺は大谷。国語科でバレー部の顧問やってます。${gameState.playerName}先生、よろしく！`,
+                choices: null,
+                portrait: "😄"
+            },
+            {
+                speaker: "ナレーション",
+                text: "大谷先生は高身長イケメンで、なみ先生とも親しそうだ。ライバル...？",
+                choices: null
+            },
+            {
+                speaker: "ナレーション",
+                text: "数日後、昼休み。職員室で弁当を食べていると、なみ先生が困った顔をしていた。",
+                choices: null
+            },
+            {
+                speaker: "なみ",
+                text: "う〜ん...この資料、どうまとめよう...",
+                innerThought: "（苦手なんだよな...こういうの...）",
+                choices: null,
+                portrait: "😥",
+                isNami: true
+            },
+            {
+                speaker: gameState.playerName || 'あなた',
+                text: "北井先生、何か困ってます？",
+                choices: [
+                    {
+                        text: "A：「手伝いましょうか？」（優しく声をかける）",
+                        result: 8,
+                        isGood: true
+                    },
+                    {
+                        text: "B：「効率的にやれば簡単ですよ。見てて下さい」（勝手に資料を取る）",
+                        result: -3,
+                        isGood: false
+                    },
+                    {
+                        text: "C：「大丈夫ですか...？」（心配そうに見る）",
+                        result: 5,
+                        isGood: true
+                    }
+                ],
+                portrait: "👤"
+            },
+            {
+                speaker: "なみ",
+                text: "あ、ありがとうございます...！助かります...！",
+                innerThought: "（優しい...嬉しい...）",
+                choices: null,
+                portrait: "😊",
+                isNami: true,
+                affectionCheck: true
+            },
+            {
+                speaker: "ナレーション",
+                text: "あなたはなみ先生の隣に座り、一緒に資料を整理した。時々なみ先生の笑顔が見えて、心が温かくなる。",
+                choices: null,
+                effects: true,
+                effectType: 'heart'
+            },
+            {
+                speaker: "なみ",
+                text: `${gameState.playerName}先生、本当に助かりました...！お礼に、お茶でもどうですか？`,
+                innerThought: "（お話ししたいな...）",
+                choices: null,
+                portrait: "😊",
+                isNami: true
+            },
+            {
+                speaker: gameState.playerName || 'あなた',
+                text: "いいんですか？ぜひ！",
+                choices: null,
+                portrait: "😊"
+            },
+            {
+                speaker: "ナレーション",
+                text: "放課後、準備室でお茶を飲みながら、なみ先生と話す。",
+                choices: null
+            },
+            {
+                speaker: "なみ",
+                text: "私、実は小動物が好きなんです...ウサギとか、ハムスターとか...♪",
+                innerThought: "（もふもふしたい...）",
+                choices: null,
+                portrait: "🐰",
+                isNami: true
+            },
+            {
+                speaker: gameState.playerName || 'あなた',
+                text: "へぇ、可愛いですね。",
+                choices: [
+                    {
+                        text: "A：「北井先生も小動物みたいで可愛いですよ」（笑顔で）",
+                        result: 12,
+                        isGood: true
+                    },
+                    {
+                        text: "B：「動物は非効率的な存在ですが、癒やし効果は認めます」",
+                        result: -5,
+                        isGood: false
+                    },
+                    {
+                        text: "C：「俺も動物好きです。いつか一緒に動物園行きたいですね」",
+                        result: 10,
+                        isGood: true
+                    }
+                ],
+                portrait: "👤"
+            },
+            {
+                speaker: "なみ",
+                text: "えへへ...ありがとうございます...♡",
+                innerThought: "（褒められちゃった...嬉しい...）",
+                choices: null,
+                portrait: "😊",
+                isNami: true,
+                affectionCheck: true,
+                effects: true,
+                effectType: 'heart'
+            },
+            {
+                speaker: "ナレーション",
+                text: "その時、大谷先生が入ってきた。",
+                choices: null
+            },
+            {
+                speaker: "大谷",
+                text: "お、なみ先生！あれ、新人の先生も一緒？",
+                choices: null,
+                portrait: "😊"
+            },
+            {
+                speaker: "なみ",
+                text: `${gameState.playerName}先生が資料手伝ってくれたんです。`,
+                choices: null,
+                portrait: "😊",
+                isNami: true
+            },
+            {
+                speaker: "大谷",
+                text: "へぇ〜、良い人じゃん！俺もなみ先生とよくお茶するんだよね〜",
+                choices: null,
+                portrait: "😄"
+            },
+            {
+                speaker: "ナレーション",
+                text: "大谷先生の存在感が強い...これはライバルだ。",
+                choices: null
+            },
+            {
+                speaker: "ナレーション",
+                text: "数日後、廊下でなみ先生が生徒に囲まれていた。",
+                choices: null
+            },
+            {
+                speaker: "生徒A",
+                text: "先生〜！この問題教えて下さい！",
+                choices: null,
+                portrait: "👦"
+            },
+            {
+                speaker: "なみ",
+                text: "ええっと...ちょっと待ってね...！",
+                innerThought: "（たくさん来ちゃった...どうしよう...）",
+                choices: null,
+                portrait: "😰",
+                isNami: true
+            },
+            {
+                speaker: gameState.playerName || 'あなた',
+                text: "北井先生、手伝いましょうか？",
+                choices: [
+                    {
+                        text: "A：「俺も一緒に教えますよ」（笑顔で）",
+                        result: 10,
+                        isGood: true
+                    },
+                    {
+                        text: "B：「効率的に処理しましょう。列に並ばせてください」",
+                        result: 0,
+                        isGood: false
+                    },
+                    {
+                        text: "C：「大丈夫ですか？無理しないでくださいね」",
+                        result: 7,
+                        isGood: true
+                    }
+                ],
+                portrait: "👤"
+            },
+            {
+                speaker: "なみ",
+                text: "ありがとうございます...！助かります...！",
+                innerThought: "（また助けてくれた...優しい...）",
+                choices: null,
+                portrait: "😊",
+                isNami: true,
+                affectionCheck: true
+            },
+            {
+                speaker: "ナレーション",
+                text: "生徒たちに教え終わった後、二人で歩く。",
+                choices: null
+            },
+            {
+                speaker: "なみ",
+                text: `${gameState.playerName}先生って...本当に優しいんですね...`,
+                innerThought: "（ドキドキする...）",
+                choices: null,
+                portrait: "😊",
+                isNami: true,
+                effects: true,
+                effectType: 'heart'
+            },
+            {
+                speaker: gameState.playerName || 'あなた',
+                text: "そんな...当たり前のことですよ。",
+                choices: null,
+                portrait: "😊"
+            },
+            {
+                speaker: "ナレーション",
+                text: "そして、放課後の渡り廊下。夕日が差し込む中、あなたは決意した。",
+                choices: null,
+                effects: true,
+                effectType: 'heart'
+            },
+            {
+                speaker: gameState.playerName || 'あなた',
+                text: "北井先生、少しいいですか？",
+                choices: null,
+                portrait: "👤"
+            },
+            {
+                speaker: "なみ",
+                text: "はい...どうしました？",
+                innerThought: "（ドキドキ...何だろう...）",
+                choices: null,
+                portrait: "😊",
+                isNami: true
+            },
+            {
+                speaker: gameState.playerName || 'あなた',
+                text: "俺...北井先生のことが...",
+                choices: null,
+                portrait: "😳"
+            },
+            {
+                speaker: "ナレーション",
+                text: "この瞬間、なみ先生への好感度が勝敗を分ける...！",
+                choices: null,
+                finalCheck: true
             }
         ];
-
-        function startGame() {
-            document.getElementById('title-screen').style.display = 'none';
-            document.getElementById('game-screen').style.display = 'block';
-            gameState = {
-                currentPhase: 1,
-                currentScene: 0,
-                namiAffection: 0,
-                sanValue: 100,
-                items: [],
-                playerPos: 4,
-                matsumotoPos: 0,
-                escapeTurns: 0,
-                mathCorrect: 0
-            };
-            updateStatus();
-            showScene();
-        }
 
         function updateStatus() {
             document.getElementById('nami-affection').textContent = gameState.namiAffection;
@@ -1007,7 +1506,11 @@
             const namiBar = document.getElementById('nami-bar');
             const sanBar = document.getElementById('san-bar');
             
-            namiBar.style.width = Math.max(0, Math.min(100, 50 + gameState.namiAffection)) + '%';
+            const namiPercent = gameState.mode === 'kato' 
+                ? Math.max(0, Math.min(100, 50 + gameState.namiAffection))
+                : Math.max(0, Math.min(100, gameState.namiAffection));
+            
+            namiBar.style.width = namiPercent + '%';
             sanBar.style.width = gameState.sanValue + '%';
             
             if (gameState.sanValue < 30) {
@@ -1030,6 +1533,7 @@
             const textContent = document.getElementById('text-content');
             const choicesDiv = document.getElementById('choices');
             const mathEffects = document.getElementById('math-effects');
+            const portraitDiv = document.getElementById('character-portrait');
             const escapeMap = document.getElementById('escape-map');
             const mathGame = document.getElementById('math-game');
             const inputSection = document.getElementById('input-section');
@@ -1040,58 +1544,95 @@
             mathGame.style.display = 'none';
             inputSection.style.display = 'none';
             mathEffects.innerHTML = '';
+            portraitDiv.textContent = '';
 
-            let scene;
-            if (gameState.currentPhase === 1) {
-                scene = phase1Scenarios[gameState.currentScene];
-            } else if (gameState.currentPhase === 2) {
-                scene = phase2Scenarios[gameState.currentScene];
-            } else if (gameState.currentPhase === 3) {
-                scene = phase3Scenarios[gameState.currentScene];
-            }
+            let scene = currentScenarios[gameState.currentScene];
 
             if (!scene) {
-                if (gameState.currentPhase === 1) {
+                if (gameState.currentPhase === 1 && gameState.mode === 'kato') {
                     startPhase2();
+                } else if (gameState.currentPhase === 1 && gameState.mode === 'custom') {
+                    checkNamiEnding();
                 } else if (gameState.currentPhase === 2) {
                     startPhase3();
                 }
                 return;
             }
 
+            // 最終チェック
+            if (scene.finalCheck) {
+                checkNamiEnding();
+                return;
+            }
+
+            // 好感度チェック
+            if (scene.affectionCheck && gameState.mode === 'custom') {
+                const lastChoice = currentScenarios[gameState.currentScene - 1];
+                if (lastChoice && lastChoice.choices) {
+                    const choiceResult = document.createElement('div');
+                    choiceResult.className = 'inner-thought';
+                    if (gameState.namiAffection > 60) {
+                        choiceResult.innerHTML = '💖 なみ先生の好感度が上がった！';
+                        choiceResult.style.color = '#ec407a';
+                    }
+                    setTimeout(() => {
+                        textContent.appendChild(choiceResult);
+                    }, 500);
+                }
+            }
+
             // Phase 2の演出
             if (gameState.currentPhase === 2) {
-                textWindow.classList.remove('normal');
+                textWindow.classList.remove('normal', 'romance');
                 textWindow.classList.add('horror');
                 document.getElementById('game-header').classList.add('horror');
                 document.getElementById('game-header').textContent = 'Phase 2: 恐怖の逃走劇';
-            } else if (gameState.currentPhase === 3) {
-                textWindow.classList.remove('horror');
-                textWindow.classList.add('normal');
-                document.getElementById('game-header').classList.remove('horror');
-                document.getElementById('game-header').textContent = 'Phase 3: 安らぎの数式';
             }
 
-            // 数式エフェクト
+            // 立ち絵表示
+            if (scene.portrait) {
+                portraitDiv.textContent = scene.portrait;
+            }
+
+            // エフェクト
             if (scene.effects) {
-                const symbols = ['∫', '∑', '√', 'π', 'θ', '∞', '∂', '≈', '≠', '≡', 'Δ', 'Σ', 'α', 'β', 'γ'];
-                for (let i = 0; i < 8; i++) {
-                    const symbol = document.createElement('div');
-                    symbol.className = 'math-symbol';
-                    symbol.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-                    symbol.style.left = Math.random() * 80 + '%';
-                    symbol.style.top = Math.random() * 80 + '%';
-                    symbol.style.animationDelay = Math.random() * 2 + 's';
-                    mathEffects.appendChild(symbol);
+                const effectType = scene.effectType || 'math';
+                if (effectType === 'heart') {
+                    textWindow.classList.remove('normal');
+                    textWindow.classList.add('romance');
+                    const symbols = ['💕', '💖', '💗', '💘', '💝', '❤️', '💓'];
+                    for (let i = 0; i < 8; i++) {
+                        const symbol = document.createElement('div');
+                        symbol.className = 'heart-symbol';
+                        symbol.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                        symbol.style.left = Math.random() * 80 + '%';
+                        symbol.style.top = Math.random() * 80 + '%';
+                        symbol.style.animationDelay = Math.random() * 2 + 's';
+                        mathEffects.appendChild(symbol);
+                    }
+                } else {
+                    const symbols = ['∫', '∑', '√', 'π', 'θ', '∞', '∂', '≈', '≠', '≡', 'Δ', 'Σ', 'α', 'β', 'γ'];
+                    for (let i = 0; i < 8; i++) {
+                        const symbol = document.createElement('div');
+                        symbol.className = 'math-symbol';
+                        symbol.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                        symbol.style.left = Math.random() * 80 + '%';
+                        symbol.style.top = Math.random() * 80 + '%';
+                        symbol.style.animationDelay = Math.random() * 2 + 's';
+                        mathEffects.appendChild(symbol);
+                    }
                 }
             }
 
             // テキスト表示
-            const speakerClass = gameState.currentPhase === 2 ? 'horror' : '';
-            textContent.innerHTML = `
-                <span class="character-name ${speakerClass}">${scene.speaker}</span>
-                ${scene.text}
-            `;
+            const speakerClass = scene.isNami ? 'nami' : (gameState.currentPhase === 2 ? 'horror' : '');
+            let html = `<span class="character-name ${speakerClass}">${scene.speaker}</span>${scene.text}`;
+            
+            if (scene.innerThought) {
+                html += `<div class="inner-thought">${scene.innerThought}</div>`;
+            }
+            
+            textContent.innerHTML = html;
 
             // アイテム入手
             if (scene.item) {
@@ -1110,6 +1651,9 @@
             if (scene.mathGame) {
                 setTimeout(() => {
                     mathGame.style.display = 'block';
+                    if (gameState.mode === 'custom') {
+                        document.getElementById('math-game-title').textContent = 'あなたの数学力を見せよう！';
+                    }
                     startMathGame();
                 }, 500);
                 return;
@@ -1130,20 +1674,12 @@
                     choicesDiv.style.display = 'block';
                     scene.choices.forEach((choice, index) => {
                         const button = document.createElement('button');
-                        button.className = 'choice-button' + (gameState.currentPhase === 2 ? ' horror' : '');
+                        const buttonClass = gameState.mode === 'custom' ? 'romance' : 
+                            (gameState.currentPhase === 2 ? 'horror' : '');
+                        button.className = 'choice-button ' + buttonClass;
                         button.textContent = choice.text;
                         
-                        if (choice.ending) {
-                            button.onclick = () => {
-                                if (choice.ending === 'normal') {
-                                    normalEnding();
-                                } else if (choice.ending === 'true') {
-                                    trueEnding();
-                                }
-                            };
-                        } else {
-                            button.onclick = () => makeChoice(index, choice);
-                        }
+                        button.onclick = () => makeChoice(index, choice);
                         
                         choicesDiv.appendChild(button);
                     });
@@ -1153,7 +1689,7 @@
                 setTimeout(() => {
                     choicesDiv.style.display = 'block';
                     const button = document.createElement('button');
-                    button.className = 'continue-button';
+                    button.className = 'continue-button' + (gameState.mode === 'custom' ? ' romance' : '');
                     button.textContent = '次へ';
                     button.onclick = nextScene;
                     choicesDiv.appendChild(button);
@@ -1164,6 +1700,13 @@
         function makeChoice(index, choice) {
             if (choice.result) {
                 gameState.namiAffection += choice.result;
+                if (gameState.mode === 'custom') {
+                    const notifType = choice.isGood ? 'love' : '';
+                    const message = choice.isGood ? 
+                        `なみ先生の好感度が上がった！ (+${choice.result})` : 
+                        `なみ先生の反応が微妙...`;
+                    showNotification(message, notifType);
+                }
             }
             if (choice.san) {
                 gameState.sanValue = Math.max(0, Math.min(100, gameState.sanValue + choice.san));
@@ -1181,14 +1724,282 @@
         function startPhase2() {
             gameState.currentPhase = 2;
             gameState.currentScene = 0;
+            currentScenarios = katoPhase2Scenarios;
             showScene();
+        }
+
+        const katoPhase2Scenarios = [
+            {
+                speaker: "ナレーション",
+                text: "翌日、職員室。加藤先生は精神的に弱っていた。そんな彼に近づく強烈な香水の匂い...",
+                choices: null
+            },
+            {
+                speaker: "松本",
+                text: "あらぁ〜ん、加藤ちゃん♡ 元気ないわねぇ〜？お姉さんが慰めてあ・げ・る♡",
+                choices: null,
+                portrait: "💋"
+            },
+            {
+                speaker: "加藤",
+                text: "（背筋が凍る）ま、松本先生...お気遣いありがとうございますが、採点が...",
+                choices: null,
+                portrait: "😰"
+            },
+            {
+                speaker: "松本",
+                text: "そんなの後でいいじゃなぁい♡ ほら、準備室に来なさぁい〜（腕を掴もうとする）",
+                choices: null,
+                portrait: "💋"
+            },
+            {
+                speaker: "加藤",
+                text: "...！（とっさに逃げる）",
+                choices: null,
+                portrait: "🏃"
+            },
+            {
+                speaker: "松本",
+                text: "あらぁ〜ん、逃げちゃダメよぉ〜♡ かぁ〜くれんぼぉ〜♡",
+                choices: null,
+                portrait: "💋"
+            },
+            {
+                speaker: "ナレーション",
+                text: "逃走劇スタート！職員室から安全地帯まで逃げ切れ！松本先生に捕まったら...Bad End確定！",
+                choices: null,
+                escapeGame: true
+            }
+        ];
+
+        function checkNamiEnding() {
+            if (gameState.namiAffection >= 70) {
+                namiGoodEnding();
+            } else if (gameState.namiAffection >= 50) {
+                namiNormalEnding();
+            } else {
+                namiBadEnding();
+            }
+        }
+
+        function namiGoodEnding() {
+            document.getElementById('game-screen').style.display = 'none';
+            const endingScreen = document.getElementById('ending-screen');
+            endingScreen.className = 'nami';
+            endingScreen.style.display = 'block';
+            endingScreen.innerHTML = `
+                <div class="character-portrait">🐰💕</div>
+                <h2>True Love End：小動物系彼女ゲット！</h2>
+                <p><strong>${gameState.playerName}:</strong> 「俺...北井先生のことが好きです」</p>
+                <p><strong>なみ:</strong> 「えっ...！」</p>
+                <p>なみ先生の顔が真っ赤になる。</p>
+                <p><strong>なみ:</strong> 「私も...${gameState.playerName}先生のこと...ずっと気になってました...」</p>
+                <p><strong>${gameState.playerName}:</strong> 「本当ですか...！」</p>
+                <p><strong>なみ:</strong> 「はい...優しくて、いつも助けてくれて...大好きです♡」</p>
+                <p>夕日の中、二人は手を繋いだ。</p>
+                <p>その後、二人は職員室で公認のカップルとなり、<br>
+                休日にはデートを重ね、数年後に結婚した。</p>
+                <p style="font-size: 48px; margin: 20px 0;">💕 HAPPY END 💕</p>
+                <p style="margin-top: 20px; font-size: 14px; color: #666;">
+                最終スコア<br>
+                なみ先生好感度: ${gameState.namiAffection}<br>
+                SAN値: ${gameState.sanValue}
+                </p>
+                <button class="restart-button" onclick="location.reload()">タイトルに戻る</button>
+            `;
+        }
+
+        function namiNormalEnding() {
+            document.getElementById('game-screen').style.display = 'none';
+            const endingScreen = document.getElementById('ending-screen');
+            endingScreen.className = 'normal';
+            endingScreen.style.display = 'block';
+            endingScreen.innerHTML = `
+                <div class="character-portrait">🐰</div>
+                <h2>Friend End：友達以上、恋人未満</h2>
+                <p><strong>${gameState.playerName}:</strong> 「俺...北井先生のことが好きです」</p>
+                <p><strong>なみ:</strong> 「えっ...」</p>
+                <p>なみ先生は困った顔をする。</p>
+                <p><strong>なみ:</strong> 「ごめんなさい...${gameState.playerName}先生のこと、良い人だと思ってますけど...」</p>
+                <p><strong>${gameState.playerName}:</strong> 「...そうですか」</p>
+                <p><strong>なみ:</strong> 「でも、これからも友達として...仲良くしてくれますか？」</p>
+                <p>その後、二人は良き同僚として働き続けた。<br>
+                時々、なみ先生と大谷先生が楽しそうに話しているのを見かける。</p>
+                <p style="margin-top: 20px; font-size: 14px; color: #666;">
+                最終スコア<br>
+                なみ先生好感度: ${gameState.namiAffection}<br>
+                SAN値: ${gameState.sanValue}<br>
+                ※好感度70以上でTrue Endに到達できます
+                </p>
+                <button class="restart-button" onclick="location.reload()">タイトルに戻る</button>
+            `;
+        }
+
+        function namiBadEnding() {
+            document.getElementById('game-screen').style.display = 'none';
+            const endingScreen = document.getElementById('ending-screen');
+            endingScreen.className = 'bad';
+            endingScreen.style.display = 'block';
+            endingScreen.innerHTML = `
+                <div class="character-portrait">😰</div>
+                <h2>Bad End：恐怖の告白</h2>
+                <p><strong>${gameState.playerName}:</strong> 「俺...北井先生のことが好きです」</p>
+                <p><strong>なみ:</strong> 「えっ...！」</p>
+                <p>なみ先生は明らかに怯えた表情を見せる。</p>
+                <p><strong>なみ:</strong> 「ご、ごめんなさい...！私、${gameState.playerName}先生のことちょっと...怖くて...」</p>
+                <p><strong>${gameState.playerName}:</strong> 「えっ...」</p>
+                <p><strong>なみ:</strong> 「すみません...！」（走り去る）</p>
+                <p>その後、なみ先生はあなたを避けるようになり、<br>
+                大谷先生とさらに親しくなっていった。</p>
+                <p>職員室での日々は気まずいものとなった...</p>
+                <p style="margin-top: 20px; font-size: 14px; color: #666;">
+                最終スコア<br>
+                なみ先生好感度: ${gameState.namiAffection}<br>
+                SAN値: ${gameState.sanValue}<br>
+                ※好感度が低すぎました。もっと優しい選択肢を選ぼう！
+                </p>
+                <button class="restart-button" onclick="location.reload()">タイトルに戻る</button>
+            `;
         }
 
         function startPhase3() {
             gameState.currentPhase = 3;
             gameState.currentScene = 0;
+            currentScenarios = katoPhase3Scenarios;
             showScene();
         }
+
+        const katoPhase3Scenarios = [
+            {
+                speaker: "ナレーション",
+                text: "なんとか職員室の自席に戻った加藤先生。体力も精神力も限界だった。",
+                choices: null
+            },
+            {
+                speaker: "畑",
+                text: "あらあら、大変だったわねぇ。松本先生から逃げてきたの？（クスクス）",
+                choices: null,
+                portrait: "👵"
+            },
+            {
+                speaker: "加藤",
+                text: "...畑先生。もう...疲れました...（机に突っ伏す）",
+                choices: null,
+                portrait: "😞"
+            },
+            {
+                speaker: "畑",
+                text: "（優しく背中をさする）まぁまぁ。飴ちゃん食べて元気出して。",
+                choices: null,
+                portrait: "👵"
+            },
+            {
+                speaker: "加藤",
+                text: "...なぜ、畑先生だけが僕の話を聞いてくれるんですか？",
+                choices: null,
+                portrait: "🤔"
+            },
+            {
+                speaker: "畑",
+                text: "それはね、加藤先生。私も数学教師だから。あなたの論理的思考、よくわかるのよ。",
+                choices: null,
+                portrait: "👵"
+            },
+            {
+                speaker: "加藤",
+                text: "...！",
+                choices: null,
+                effects: true,
+                portrait: "😳"
+            },
+            {
+                speaker: "畑",
+                text: "でもね、加藤先生。数学にも「感情」が必要なの。美しい証明には、エレガンスがある。",
+                choices: null,
+                portrait: "👵"
+            },
+            {
+                speaker: "加藤",
+                text: "エレガンス...？",
+                choices: null,
+                portrait: "🤔"
+            },
+            {
+                speaker: "畑",
+                text: "そう。論理だけじゃない、何か...心を揺さぶるものがある。恋愛も同じよ。",
+                choices: null,
+                portrait: "👵"
+            },
+            {
+                speaker: "加藤",
+                text: "...畑先生は、僕の論理を否定しない。理解してくれる。初めてです、こんな感覚。",
+                choices: null,
+                effects: true,
+                portrait: "😊"
+            },
+            {
+                speaker: "畑",
+                text: "（微笑む）あらあら、それは...嬉しいわ。",
+                choices: null,
+                portrait: "😊"
+            },
+            {
+                speaker: "ナレーション",
+                text: "夕暮れの職員室。二人だけの静かな時間。加藤先生の心に、新しい感情が芽生え始めていた。",
+                choices: null
+            },
+            {
+                speaker: "加藤",
+                text: "畑先生...あなたといると、論理を超えた何かを感じます。",
+                choices: null,
+                portrait: "😊"
+            },
+            {
+                speaker: "畑",
+                text: "...加藤先生？",
+                choices: null,
+                portrait: "👵"
+            },
+            {
+                speaker: "加藤",
+                text: "僕は...若さに執着していました。北井先生への恋も、実は「若い女性を手に入れたい」という論理的目標だったのかもしれません。",
+                choices: null,
+                effects: true,
+                portrait: "🤔"
+            },
+            {
+                speaker: "畑",
+                text: "...（静かに聞いている）",
+                choices: null,
+                portrait: "👵"
+            },
+            {
+                speaker: "加藤",
+                text: "でも、あなたといると...目の前にある「安らぎ」が、どんな計算式よりも美しい解であると気づきました。",
+                choices: null,
+                portrait: "😊"
+            },
+            {
+                speaker: "畑",
+                text: "加藤先生...（目に涙を浮かべる）",
+                choices: null,
+                portrait: "😢"
+            },
+            {
+                speaker: "ナレーション",
+                text: "加藤先生は、最後の選択を迫られる。",
+                choices: [
+                    {
+                        text: "なみ先生への未練を捨てきれない（若さへの執着）",
+                        ending: "normal"
+                    },
+                    {
+                        text: "畑先生の優しさに答えたい（真実の愛）",
+                        ending: "true"
+                    }
+                ]
+            }
+        ];
 
         // 数式ミニゲーム
         function startMathGame() {
@@ -1238,7 +2049,7 @@
             const mapGrid = document.getElementById('map-grid');
             mapGrid.innerHTML = '';
             
-            const positions = ['廊下', '階段', '準備室', '廊下', '職員室(安全)', '準備室', '階段', '廊下', '図書室'];
+            const positions = ['廊下', '階段', '準備室', '廊下', '職員室', '準備室', '階段', '廊下', '図書室'];
             
             for (let i = 0; i < 9; i++) {
                 const cell = document.createElement('div');
@@ -1247,18 +2058,14 @@
                 if (i === gameState.playerPos) {
                     cell.classList.add('player');
                     cell.textContent = '🏃';
-                    cell.title = positions[i];
                 } else if (i === gameState.matsumotoPos) {
                     cell.classList.add('matsumoto');
                     cell.textContent = '💋';
-                    cell.title = positions[i];
                 } else if (i === 4) {
                     cell.classList.add('safe');
                     cell.textContent = '🏠';
-                    cell.title = positions[i];
                 } else {
                     cell.textContent = positions[i].substring(0, 2);
-                    cell.title = positions[i];
                 }
                 
                 cell.onclick = () => movePlayer(i);
@@ -1269,7 +2076,6 @@
         }
 
         function movePlayer(newPos) {
-            // 隣接チェック
             const adjacents = getAdjacents(gameState.playerPos);
             if (!adjacents.includes(newPos)) {
                 showNotification('そこには移動できません！');
@@ -1279,7 +2085,6 @@
             gameState.playerPos = newPos;
             gameState.escapeTurns++;
             
-            // 松本先生の移動
             const matsumotoAdjacents = getAdjacents(gameState.matsumotoPos);
             const matsumotoTarget = matsumotoAdjacents.filter(pos => {
                 const distance = getDistance(pos, gameState.playerPos);
@@ -1294,7 +2099,6 @@
             
             renderEscapeMap();
             
-            // 捕まった
             if (gameState.playerPos === gameState.matsumotoPos) {
                 document.getElementById('escape-map').style.display = 'none';
                 setTimeout(() => {
@@ -1305,9 +2109,7 @@
                         badEnding();
                     }
                 }, 500);
-            }
-            // ゴール
-            else if (gameState.playerPos === 4) {
+            } else if (gameState.playerPos === 4) {
                 document.getElementById('escape-map').style.display = 'none';
                 showNotification('職員室の自席に辿り着いた！');
                 setTimeout(() => startPhase3(), 1500);
@@ -1331,7 +2133,6 @@
             return Math.abs(row1 - row2) + Math.abs(col1 - col2);
         }
 
-        // 言い訳入力
         function startExcuseInput() {
             document.getElementById('input-section').style.display = 'block';
             document.getElementById('excuse-input').value = '';
@@ -1377,6 +2178,7 @@
             endingScreen.className = 'normal';
             endingScreen.style.display = 'block';
             endingScreen.innerHTML = `
+                <div class="character-portrait">😔</div>
                 <h2>End A：計算違いの孤独</h2>
                 <p>加藤先生はなみ先生への思いを捨てきれなかった。</p>
                 <p>翌日、渡り廊下で大谷先生と並んで歩くなみ先生を遠くから見つめる。</p>
@@ -1400,6 +2202,7 @@
             endingScreen.className = 'bad';
             endingScreen.style.display = 'block';
             endingScreen.innerHTML = `
+                <div class="character-portrait">💋</div>
                 <h2>End B：捕食</h2>
                 <p>松本先生の罠にかかってしまった！</p>
                 <p style="font-size: 64px; margin: 20px 0;">💋</p>
@@ -1420,6 +2223,7 @@
             const endingScreen = document.getElementById('ending-screen');
             endingScreen.className = 'true';
             endingScreen.innerHTML = `
+                <div class="character-portrait">👵💕</div>
                 <h2>End C：証明完了</h2>
                 <p>夕暮れの職員室。加藤先生は青ペンを置き、畑先生から貰った黒糖飴を舐める。</p>
                 <p><strong>加藤:</strong> 「非論理的だと思っていたが...悪くない」</p>
@@ -1440,9 +2244,10 @@
             `;
         }
 
-        function showNotification(message) {
+        function showNotification(message, type = '') {
             const notification = document.getElementById('notification');
             notification.textContent = message;
+            notification.className = type;
             notification.style.display = 'block';
             setTimeout(() => {
                 notification.style.display = 'none';
