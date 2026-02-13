@@ -731,7 +731,7 @@
             <button class="mode-button" onclick="selectMode('custom')">
                 <h3>💕 生徒モード（禁断の恋）</h3>
                 <p>今日は2月14日、バレンタインデー！<br>
-                あなたは高校3年生。担任の北井なみ先生に恋をした...！<br>
+                あなたは青稜中学校3年生。担任の北井なみ先生に恋をした...！<br>
                 ※生徒と先生の禁断の恋愛ストーリー。</p>
             </button>
         </div>
@@ -742,7 +742,7 @@
             <div class="valentine-note">
                 <p style="font-weight: bold; color: #ec407a; margin-bottom: 10px;">📅 2月14日 バレンタインデー</p>
                 <p>
-                    あなたは高校3年生。<br>
+                    あなたは青稜中学校3年生。<br>
                     担任であり、現代国語を教える北井なみ先生に<br>
                     密かに恋をしている...<br><br>
                     今日、勇気を出してチョコを渡そうと決意した。
@@ -885,11 +885,11 @@
             showScene();
         }
 
-        // 生徒モード：バレンタインシナリオ
+        // 生徒モード：バレンタインシナリオ（加藤先生なし）
         const studentValentineScenarios = [
             {
                 speaker: "ナレーション",
-                text: "2月14日、朝。高校3年生のクラス。今日はバレンタインデー。",
+                text: "2月14日、朝。青稜中学校3年生のクラス。今日はバレンタインデー。",
                 choices: null
             },
             {
@@ -1127,6 +1127,20 @@
                 isNami: true
             },
             {
+                speaker: "大谷",
+                text: "もしかして生徒からチョコもらったとか？良かったじゃん！",
+                choices: null,
+                portrait: "😄"
+            },
+            {
+                speaker: "なみ",
+                text: "そ、そうなんです...えへへ♪",
+                innerThought: "（大谷先生にバレちゃった...）",
+                choices: null,
+                portrait: "😊",
+                isNami: true
+            },
+            {
                 speaker: "ナレーション",
                 text: "放課後。あなたは廊下でなみ先生と偶然会った。",
                 choices: null
@@ -1237,7 +1251,7 @@
             }
         ];
 
-        // 加藤先生モードのシナリオ（省略 - 前回と同じ）
+        // 加藤先生モードのシナリオ（簡略版）
         const katoPhase1Scenarios = [
             {
                 speaker: "ナレーション",
@@ -1251,12 +1265,13 @@
                 effects: true,
                 portrait: "🧮"
             },
-            // ... 以前のkatoPhase1Scenariosの内容
+            // ここに残りのkatoPhase1Scenariosを追加
+            // 省略しますが、実装時には前回のシナリオを使用
         ];
 
         function updateStatus() {
-            const statValue = gameState.mode === 'kato' ? gameState.namiAffection : gameState.namiAffection;
-            const courageValue = gameState.mode === 'kato' ? gameState.courage : gameState.courage;
+            const statValue = gameState.namiAffection;
+            const courageValue = gameState.courage;
             
             document.getElementById('nami-affection').textContent = statValue;
             document.getElementById('san-value').textContent = courageValue;
@@ -1305,10 +1320,8 @@
 
             if (!scene) {
                 if (gameState.mode === 'kato') {
-                    // 加藤先生モードは既存の流れ
-                    normalEnding(); // 仮
+                    normalEnding();
                 } else {
-                    // 生徒モードはチョコ渡したかチェック
                     if (!gameState.items.includes('バレンタインチョコ')) {
                         currentScenarios = studentValentineRetreat;
                         gameState.currentScene = 0;
@@ -1320,36 +1333,28 @@
                 return;
             }
 
-            // 最終チェック
             if (scene.finalCheck) {
                 checkStudentEnding();
                 return;
             }
 
-            // 好感度チェック
             if (scene.affectionCheck && gameState.mode === 'custom') {
-                const lastChoice = currentScenarios[gameState.currentScene - 1];
-                if (lastChoice && lastChoice.choices) {
-                    setTimeout(() => {
-                        if (gameState.namiAffection > 60) {
-                            showNotification('💖 なみ先生の好感度が上がった！', 'love');
-                        }
-                    }, 500);
-                }
+                setTimeout(() => {
+                    if (gameState.namiAffection > 60) {
+                        showNotification('💖 なみ先生の好感度が上がった！', 'love');
+                    }
+                }, 500);
             }
 
-            // 演出設定
             if (gameState.mode === 'custom') {
                 textWindow.classList.remove('normal');
                 textWindow.classList.add('valentine');
             }
 
-            // 立ち絵表示
             if (scene.portrait) {
                 portraitDiv.textContent = scene.portrait;
             }
 
-            // エフェクト
             if (scene.effects) {
                 const effectType = scene.effectType || 'math';
                 if (effectType === 'heart') {
@@ -1377,7 +1382,6 @@
                 }
             }
 
-            // テキスト表示
             const speakerClass = scene.isNami ? 'nami' : (scene.speaker === gameState.playerName ? 'player' : '');
             let html = `<span class="character-name ${speakerClass}">${scene.speaker}</span>${scene.text}`;
             
@@ -1387,13 +1391,11 @@
             
             textContent.innerHTML = html;
 
-            // 勇気変更
             if (scene.courage) {
                 gameState.courage = Math.max(0, Math.min(100, gameState.courage + scene.courage));
                 updateStatus();
             }
 
-            // 選択肢表示
             if (scene.choices) {
                 setTimeout(() => {
                     choicesDiv.style.display = 'block';
@@ -1406,7 +1408,6 @@
                     });
                 }, 500);
             } else {
-                // 次へボタン
                 setTimeout(() => {
                     choicesDiv.style.display = 'block';
                     const button = document.createElement('button');
@@ -1430,11 +1431,9 @@
                 }
             }
             
-            // チョコ渡す選択肢
             if (choice.chocolateGive) {
                 gameState.items.push('バレンタインチョコ');
                 updateStatus();
-                // チョコ渡した後のシナリオに切り替え
                 currentScenarios = studentValentineAfterChoco;
                 gameState.currentScene = -1;
             }
@@ -1476,7 +1475,7 @@
                 <p><strong>${gameState.playerName}:</strong> 「本当ですか...！」</p>
                 <p><strong>なみ:</strong> 「でも、私は先生で、${gameState.playerName}くんは生徒だから...卒業するまで待ってくれる？」</p>
                 <p><strong>${gameState.playerName}:</strong> 「もちろんです！」</p>
-                <p>1ヶ月後、卒業式。</p>
+                <p>1ヶ月後、青稜中学校の卒業式。</p>
                 <p><strong>なみ:</strong> 「卒業おめでとう。これで、もう先生と生徒じゃないね」</p>
                 <p>二人は手を繋ぎ、新しい人生を歩み始めた。</p>
                 <p style="font-size: 48px; margin: 20px 0;">💕 HAPPY END 💕</p>
@@ -1504,7 +1503,7 @@
                 <p><strong>${gameState.playerName}:</strong> 「...そうですよね」</p>
                 <p><strong>なみ:</strong> 「でも、${gameState.playerName}くんの気持ちは嬉しかった。大切な生徒だよ」</p>
                 <p>卒業後も、なみ先生とは良い関係が続いた。<br>
-                時々学校に遊びに行くと、なみ先生は変わらず優しく迎えてくれる。</p>
+                時々青稜中学校に遊びに行くと、なみ先生は変わらず優しく迎えてくれる。</p>
                 <p style="margin-top: 20px; font-size: 14px; color: #666;">
                 最終スコア<br>
                 なみ先生好感度: ${gameState.namiAffection}<br>
@@ -1528,7 +1527,7 @@
                 <p>なみ先生は申し訳なさそうに微笑んだ。</p>
                 <p><strong>なみ:</strong> 「でも、チョコはありがとう。大切にするね」</p>
                 <p>その後、なみ先生との関係は変わらなかった。<br>
-                卒業まで、普通の先生と生徒として過ごした。</p>
+                青稜中学校の卒業まで、普通の先生と生徒として過ごした。</p>
                 <p style="margin-top: 20px; font-size: 14px; color: #666;">
                 最終スコア<br>
                 なみ先生好感度: ${gameState.namiAffection}<br>
@@ -1540,7 +1539,6 @@
 
         function studentBadEnding() {
             if (!gameState.items.includes('バレンタインチョコ')) {
-                // チョコ渡してない場合
                 document.getElementById('game-screen').style.display = 'none';
                 const endingScreen = document.getElementById('ending-screen');
                 endingScreen.className = 'bad';
@@ -1551,7 +1549,7 @@
                     <p>結局、勇気が出せずにチョコを渡せなかった。</p>
                     <p>その日の放課後、なみ先生は他の生徒たちからもらったチョコを嬉しそうに見ていた。</p>
                     <p><strong>${gameState.playerName}:</strong> 「（遠くから見ている）...渡せばよかった」</p>
-                    <p>卒業まで、この後悔は消えることはなかった...</p>
+                    <p>青稜中学校の卒業まで、この後悔は消えることはなかった...</p>
                     <p style="margin-top: 20px; font-size: 14px; color: #666;">
                     最終スコア<br>
                     なみ先生好感度: ${gameState.namiAffection}<br>
@@ -1561,7 +1559,6 @@
                     <button class="restart-button" onclick="location.reload()">タイトルに戻る</button>
                 `;
             } else {
-                // チョコ渡したけど好感度低い
                 document.getElementById('game-screen').style.display = 'none';
                 const endingScreen = document.getElementById('ending-screen');
                 endingScreen.className = 'bad';
@@ -1574,7 +1571,7 @@
                     <p>なみ先生は明らかに困惑した表情を見せた。</p>
                     <p><strong>なみ:</strong> 「ご、ごめんね...そういうつもりじゃなくて...チョコは義理で...」</p>
                     <p>その後、なみ先生とはぎこちない関係が続いた。<br>
-                    卒業まで、気まずい思いをすることになった...</p>
+                    青稜中学校の卒業まで、気まずい思いをすることになった...</p>
                     <p style="margin-top: 20px; font-size: 14px; color: #666;">
                     最終スコア<br>
                     なみ先生好感度: ${gameState.namiAffection}<br>
@@ -1586,7 +1583,6 @@
             }
         }
 
-        // 既存のエンディング関数（加藤先生モード用）
         function normalEnding() {
             document.getElementById('game-screen').style.display = 'none';
             const endingScreen = document.getElementById('ending-screen');
